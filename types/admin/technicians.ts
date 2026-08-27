@@ -23,6 +23,7 @@ export interface AdminTechnicianItem extends AdminPersonSummary {
   isAvailable: boolean;
   verificationStatus: TechnicianVerificationStatus;
   jobsToday: number;
+  jobsInProgress: number;
   reportsAwaitingReview: number;
 }
 

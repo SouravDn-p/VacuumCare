@@ -54,7 +54,7 @@ export default function TechniciansContainer() {
 }
 
 function toTechnicianCard(item: AdminTechnicianItem): Technician {
-  const onCall = item.jobsToday > 0;
+  const onCall = item.jobsInProgress > 0;
 
   return {
     id: item.id,
@@ -68,6 +68,7 @@ function toTechnicianCard(item: AdminTechnicianItem): Technician {
     phone: item.phone || "—",
     email: item.email,
     jobsToday: item.jobsToday,
+    jobsInProgress: item.jobsInProgress,
     status: onCall
       ? "On service call"
       : item.isAvailable

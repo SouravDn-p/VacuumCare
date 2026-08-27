@@ -15,7 +15,7 @@ export default function AdminLoginPage() {
         {/* Left branded panel */}
         <div className="admin-login-card__sidebar">
           <Image
-            src="/images/admin-logo.png"
+            src="/images/white-text-logo.png"
             alt="Enhancement"
             width={110}
             height={64}

@@ -2,6 +2,7 @@ import {
   CheckCircle,
   CircleCheck,
   Clock3,
+  FileText,
   Wrench,
 } from "lucide-react";
 
@@ -31,9 +32,15 @@ const steps = [
     icon: Wrench,
   },
   {
+    key: "REPORT_SUBMITTED" as const,
+    title: "Report Submitted",
+    desc: "The technician submitted the visit report for office review.",
+    icon: FileText,
+  },
+  {
     key: "COMPLETED" as const,
     title: "Completed",
-    desc: "Service report submitted and work finished.",
+    desc: "Service is finished and payment has been captured.",
     icon: CircleCheck,
   },
 ];
@@ -45,8 +52,8 @@ const statusIndex: Record<ServiceRequestStatus, number> = {
   ACCEPTED: 0,
   SCHEDULED: 1,
   IN_PROGRESS: 2,
-  REPORT_SUBMITTED: 2,
-  COMPLETED: 3,
+  REPORT_SUBMITTED: 3,
+  COMPLETED: 4,
   CANCELLED: 0,
 };
 
@@ -61,7 +68,7 @@ export default function ScheduleTimeline({
     : "your technician";
 
   return (
-    <div className="relative mt-16 grid grid-cols-1 gap-10 md:grid-cols-4">
+    <div className="relative mt-16 grid grid-cols-1 gap-10 md:grid-cols-5">
       <div className="absolute top-5 right-[10%] left-[10%] hidden h-px bg-[#dce5f3] md:block" />
 
       {steps.map((item, index) => {

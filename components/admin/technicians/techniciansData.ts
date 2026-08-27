@@ -8,6 +8,7 @@ export interface Technician {
   phone: string;
   email: string;
   jobsToday: number;
+  jobsInProgress: number;
   status: "On service call" | "Available" | "Off duty";
   statusType: "warning" | "success" | "neutral";
 }
@@ -31,6 +32,7 @@ export const TECHNICIANS_LIST: Technician[] = [
     phone: "(514) 555-0119",
     email: "marc@centralcare.com",
     jobsToday: 3,
+    jobsInProgress: 1,
     status: "On service call",
     statusType: "warning",
   },
@@ -44,6 +46,7 @@ export const TECHNICIANS_LIST: Technician[] = [
     phone: "(514) 555-0119",
     email: "marc@centralcare.com",
     jobsToday: 3,
+    jobsInProgress: 1,
     status: "On service call",
     statusType: "warning",
   },
@@ -57,6 +60,7 @@ export const TECHNICIANS_LIST: Technician[] = [
     phone: "(514) 555-0119",
     email: "marc@centralcare.com",
     jobsToday: 3,
+    jobsInProgress: 1,
     status: "On service call",
     statusType: "warning",
   },

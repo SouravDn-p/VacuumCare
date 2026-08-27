@@ -5,6 +5,7 @@ import type { AdminDashboardScheduleItem } from "@/redux/features/api/admin/dash
 
 const STATUS_CLASS: Record<string, string> = {
   IN_PROGRESS: "admin-badge--in-progress",
+  REPORT_SUBMITTED: "admin-badge--report-submitted",
   SCHEDULED: "admin-badge--scheduled",
   ACCEPTED: "admin-badge--scheduled",
 };

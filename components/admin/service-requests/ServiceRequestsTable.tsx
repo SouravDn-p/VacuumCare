@@ -17,6 +17,10 @@ function quoteDisabledReason(status: string) {
       return "This request already has an accepted quotation.";
     case "Scheduled":
       return "This request is already scheduled, so a new quote cannot be sent.";
+    case "In Progress":
+      return "The technician is already on this visit, so a new quote cannot be sent.";
+    case "Report Submitted":
+      return "The technician has submitted a report, so a new quote cannot be sent.";
     case "Completed":
       return "This request is completed, so a quotation cannot be created.";
     case "Cancelled":
@@ -30,6 +34,10 @@ function assignDisabledReason(status: string) {
   switch (status) {
     case "Scheduled":
       return "A technician is already assigned to this request.";
+    case "In Progress":
+      return "The technician has already started this visit.";
+    case "Report Submitted":
+      return "The visit report is with the office. Capture payment after review.";
     case "Completed":
       return "This request is completed, so a technician cannot be assigned.";
     case "Cancelled":
@@ -47,6 +55,10 @@ function getBadgeClass(status: string) {
       return "sr-badge--under-review";
     case "Scheduled":
       return "sr-badge--scheduled";
+    case "In Progress":
+      return "sr-badge--in-progress";
+    case "Report Submitted":
+      return "sr-badge--report-submitted";
     case "Accepted":
       return "sr-badge--accepted";
     case "Completed":

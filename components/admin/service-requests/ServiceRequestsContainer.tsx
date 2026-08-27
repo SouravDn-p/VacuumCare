@@ -20,6 +20,8 @@ const TAB_TO_API_STATUS: Record<RequestStatus, AdminServiceRequestStatus> = {
   "Quote Sent": "QUOTE_SENT",
   Accepted: "ACCEPTED",
   Scheduled: "SCHEDULED",
+  "In Progress": "IN_PROGRESS",
+  "Report Submitted": "REPORT_SUBMITTED",
   Completed: "COMPLETED",
   Cancelled: "CANCELLED",
 };
@@ -30,6 +32,8 @@ const STATUS_LABELS: Record<RequestStatus, string> = {
   "Quote Sent": "Quote sent",
   Accepted: "Accepted",
   Scheduled: "Scheduled",
+  "In Progress": "In progress",
+  "Report Submitted": "Report submitted",
   Completed: "Completed",
   Cancelled: "Cancelled",
 };
@@ -95,12 +99,14 @@ function toTabStatus(status: AdminServiceRequestStatus): RequestStatus {
       return "Under Review";
     case "QUOTE_SENT":
       return "Quote Sent";
-    case "SCHEDULED":
-    case "IN_PROGRESS":
-    case "REPORT_SUBMITTED":
-      return "Scheduled";
     case "ACCEPTED":
       return "Accepted";
+    case "SCHEDULED":
+      return "Scheduled";
+    case "IN_PROGRESS":
+      return "In Progress";
+    case "REPORT_SUBMITTED":
+      return "Report Submitted";
     case "COMPLETED":
       return "Completed";
     case "CANCELLED":

@@ -4,9 +4,14 @@ export interface AdminDashboardSummary {
   newServiceRequests: number;
   quotationsAwaitingResponse: number;
   servicesScheduledToday: number;
+  servicesInProgress: number;
+  reportsAwaitingReview: number;
   monthlyServiceRevenue: number;
   ordersAwaitingShipment: number;
   paymentIssues: number;
+  totalTechnicians: number;
+  techniciansOnAssignmentToday: number;
+  techniciansFreeToday: number;
 }
 
 export interface AdminRecentServiceRequest {

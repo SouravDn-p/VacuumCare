@@ -52,6 +52,16 @@ export default function DashboardOverview() {
       colorClass: "admin-stat-card__value--cyan",
     },
     {
+      value: pad(summary?.servicesInProgress ?? 0),
+      label: "Services in progress",
+      colorClass: "admin-stat-card__value--orange",
+    },
+    {
+      value: pad(summary?.reportsAwaitingReview ?? 0),
+      label: "Reports awaiting review",
+      colorClass: "admin-stat-card__value--purple",
+    },
+    {
       value: money(summary?.monthlyServiceRevenue ?? 0),
       label: "Monthly service revenue",
       colorClass: "admin-stat-card__value--teal",
@@ -85,6 +95,24 @@ export default function DashboardOverview() {
             colorClass={stat.colorClass}
           />
         ))}
+      </div>
+      <h2 className="admin-section-title">Technician capacity today</h2>
+      <div className="admin-stats-grid">
+        <StatCard
+          value={pad(summary?.totalTechnicians ?? 0)}
+          label="Total technicians"
+          colorClass="admin-stat-card__value--blue"
+        />
+        <StatCard
+          value={pad(summary?.techniciansFreeToday ?? 0)}
+          label="Free technicians today"
+          colorClass="admin-stat-card__value--teal"
+        />
+        <StatCard
+          value={pad(summary?.techniciansOnAssignmentToday ?? 0)}
+          label="Technicians on assignment"
+          colorClass="admin-stat-card__value--orange"
+        />
       </div>
       <div className="admin-panel-row">
         <RecentServiceRequests requests={requests} />

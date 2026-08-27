@@ -32,6 +32,10 @@ const steps = [
     label: "In Progress",
   },
   {
+    key: "REPORT_SUBMITTED",
+    label: "Report",
+  },
+  {
     key: "COMPLETED",
     label: "Completed",
   },
@@ -47,8 +51,8 @@ const statusIndex: Record<
   ACCEPTED: 2,
   SCHEDULED: 3,
   IN_PROGRESS: 4,
-  REPORT_SUBMITTED: 4,
-  COMPLETED: 5,
+  REPORT_SUBMITTED: 5,
+  COMPLETED: 6,
   CANCELLED: 0,
 };
 
@@ -137,7 +141,7 @@ export default function ServiceRequestProgress({
             return (
               <div
                 key={step.key}
-                className="relative z-10 flex w-1/6 flex-col items-center text-center"
+                className="relative z-10 flex w-[14%] flex-col items-center text-center"
               >
                 <div
                   className={`flex h-9 w-9 items-center justify-center rounded-full border-[4px] border-white ${

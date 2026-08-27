@@ -47,6 +47,10 @@ export default function TechnicianCard({
           <span className="tech-card__jobs-label">Jobs today: </span>
           <span className="tech-card__jobs-count">{technician.jobsToday}</span>
         </p>
+        <p className="tech-card__jobs-line">
+          <span className="tech-card__jobs-label">In progress: </span>
+          <span className="tech-card__jobs-count">{technician.jobsInProgress}</span>
+        </p>
 
         <div className="tech-card__status-wrap">
           <span className="tech-badge tech-badge--service-call">

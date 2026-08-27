@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   ClipboardList,
@@ -20,11 +20,10 @@ import {
   LogOut,
   X,
   MessageCircle,
+  LoaderCircle,
 } from "lucide-react";
+import { useLogoutMutation } from "@/redux/features/api/auth/authApi";
 
-/* -----------------------------------------------------------------------
-   NAV ITEMS
------------------------------------------------------------------------ */
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/service-requests", label: "Service Requests", icon: ClipboardList },
@@ -43,9 +42,6 @@ const navItems = [
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
-/* -----------------------------------------------------------------------
-   SIDEBAR COMPONENT
------------------------------------------------------------------------ */
 interface AdminSidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
@@ -53,30 +49,42 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
+
+  async function handleLogout() {
+    try {
+      await logout().unwrap();
+    } catch (error) {
+      console.error("Logout request failed:", error);
+    } finally {
+      onClose?.();
+      router.replace("/admin/login");
+      router.refresh();
+    }
+  }
 
   return (
     <>
-      {/* Overlay for mobile */}
       {isOpen && (
         <div className="admin-sidebar-overlay" onClick={onClose} aria-hidden="true" />
       )}
 
       <aside className={`admin-sidebar${isOpen ? " admin-sidebar--open" : ""}`}>
-        {/* Logo */}
         <div className="admin-sidebar__logo-wrap">
-         <Link href="/">
-         <Image
-            src="/images/white-text-logo.png"
-            alt="Enhancement Admin"
-            width={320}
-            height={100}
-            className=" h-auto w-[180px]"
-            priority
-          />
-         </Link>
-          {/* Mobile close button */}
+          <Link href="/admin" onClick={onClose} aria-label="Admin dashboard">
+            <Image
+              src="/images/white-text-logo.png"
+              alt="Enhancement Admin"
+              width={320}
+              height={100}
+              className="h-auto w-[180px]"
+              priority
+            />
+          </Link>
           {isOpen && (
             <button
+              type="button"
               className="admin-sidebar__close-btn"
               onClick={onClose}
               aria-label="Close sidebar"
@@ -86,7 +94,6 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           )}
         </div>
 
-        {/* Navigation */}
         <nav className="admin-sidebar__nav" aria-label="Admin navigation">
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive =
@@ -95,6 +102,7 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
               <Link
                 key={href}
                 href={href}
+                onClick={onClose}
                 className={`admin-sidebar__nav-item${isActive ? " admin-sidebar__nav-item--active" : ""}`}
                 aria-current={isActive ? "page" : undefined}
               >
@@ -110,11 +118,22 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           })}
         </nav>
 
-        {/* Logout */}
         <div className="admin-sidebar__bottom">
-          <button className="admin-sidebar__logout" aria-label="Logout">
-            <LogOut size={20} color="rgba(255,255,255,0.7)" strokeWidth={1.5} />
-            <span className="admin-sidebar__nav-label">Logout</span>
+          <button
+            type="button"
+            className="admin-sidebar__logout"
+            aria-label="Logout"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            {isLoggingOut ? (
+              <LoaderCircle size={20} color="rgba(255,255,255,0.7)" className="animate-spin" />
+            ) : (
+              <LogOut size={20} color="rgba(255,255,255,0.7)" strokeWidth={1.5} />
+            )}
+            <span className="admin-sidebar__nav-label">
+              {isLoggingOut ? "Logging out..." : "Logout"}
+            </span>
           </button>
         </div>
       </aside>

@@ -4,6 +4,8 @@ export type RequestStatus =
   | "Quote Sent"
   | "Accepted"
   | "Scheduled"
+  | "In Progress"
+  | "Report Submitted"
   | "Completed"
   | "Cancelled";
 
@@ -26,6 +28,8 @@ export const STATUS_TABS: RequestStatus[] = [
   "Quote Sent",
   "Accepted",
   "Scheduled",
+  "In Progress",
+  "Report Submitted",
   "Completed",
   "Cancelled",
 ];
@@ -66,6 +70,7 @@ export const SERVICE_REQUESTS_DATA: Record<RequestStatus, ServiceRequestItem[]> 
     },
   ],
   "Quote Sent": [],
+  Accepted: [],
   Scheduled: [
     {
       id: "sr-4",
@@ -78,7 +83,8 @@ export const SERVICE_REQUESTS_DATA: Record<RequestStatus, ServiceRequestItem[]> 
       statusLabel: "Scheduled",
     },
   ],
-  Accepted: [],
+  "In Progress": [],
+  "Report Submitted": [],
   Completed: [
     {
       id: "sr-5",

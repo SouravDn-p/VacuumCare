@@ -10,6 +10,9 @@ const STATUS_CLASS: Record<string, string> = {
   ACCEPTED: "admin-badge--scheduled",
   SCHEDULED: "admin-badge--scheduled",
   IN_PROGRESS: "admin-badge--in-progress",
+  REPORT_SUBMITTED: "admin-badge--report-submitted",
+  COMPLETED: "admin-badge--shipped",
+  CANCELLED: "admin-badge--pending",
 };
 
 function formatStatus(status: string) {
