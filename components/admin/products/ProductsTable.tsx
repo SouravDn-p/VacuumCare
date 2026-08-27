@@ -56,7 +56,19 @@ export default function ProductsTable({
                 return (
                   <tr key={prod.id} className="prod-table__tr">
                     <td className="prod-table__td prod-table__td--name">
-                      {prod.name}
+                      <div className="prod-table__product">
+                        {source?.imageUrls?.[0] ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={source.imageUrls[0]}
+                            alt=""
+                            className="prod-table__thumb"
+                          />
+                        ) : (
+                          <span className="prod-table__thumb prod-table__thumb--empty" />
+                        )}
+                        <span>{prod.name}</span>
+                      </div>
                     </td>
                     <td className="prod-table__td prod-table__td--sku">
                       {prod.sku}

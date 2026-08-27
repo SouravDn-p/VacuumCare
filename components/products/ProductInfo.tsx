@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { CART_IMAGE_FALLBACK } from "@/types/customer/cart";
 import { writeBuyNow } from "@/lib/buyNow";
+import { addToCartOrLogin, requireLoginForPurchase } from "@/lib/addToCartOrLogin";
 
 const icons = [BadgeCheck, Box, Zap, Volume2, Sparkles, Cog];
 
@@ -36,10 +37,11 @@ export default function ProductInfo({ product }: { product: Product }) {
   };
 
   const handleAddToCart = () => {
-    void addItem(cartProduct, quantity);
+    void addToCartOrLogin(() => addItem(cartProduct, quantity));
   };
 
   const handleBuyNow = () => {
+    if (!requireLoginForPurchase()) return;
     writeBuyNow({
       productId: product.id,
       quantity,

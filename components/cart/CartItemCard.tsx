@@ -54,7 +54,7 @@ export default function CartItemCard({ item }: { item: CartItem }) {
             </button>
           </div>
 
-          <div className="flex items-end justify-between mt-4">
+          <div className="flex items-end justify-between mt-4 flex-wrap gap-2">
             {/* Quantity */}
             <div className="inline-flex h-8 items-center rounded-[8px] border border-[#dfe5eb]">
               <button

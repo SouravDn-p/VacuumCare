@@ -8,10 +8,25 @@ export interface AdminBusinessSettings {
   businessAddress: string | null;
   serviceArea: string | null;
   logoUrl: string | null;
+  landingHeroImageUrl: string | null;
+}
+
+export interface PublicSiteSettings {
+  businessName: string | null;
+  officePhone: string | null;
+  supportEmail: string | null;
+  businessAddress: string | null;
+  serviceArea: string | null;
+  logoUrl: string | null;
+  landingHeroImageUrl: string | null;
 }
 
 export const adminSettingsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getPublicSettings: builder.query<PublicSiteSettings, void>({
+      query: () => ({ url: "/public/settings", method: "GET" }),
+      providesTags: ["AdminSettings"],
+    }),
     getAdminSettings: builder.query<AdminBusinessSettings, void>({
       query: () => ({ url: "/admin/settings", method: "GET" }),
       providesTags: ["AdminSettings"],
@@ -44,9 +59,25 @@ export const adminSettingsApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["AdminSettings"],
     }),
+    uploadLandingHero: builder.mutation<AdminBusinessSettings, File>({
+      query: (hero) => {
+        const formData = new FormData();
+        formData.append("hero", hero);
+        return {
+          url: "/admin/settings/hero",
+          method: "POST",
+          body: formData,
+        };
+      },
+      invalidatesTags: ["AdminSettings"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetAdminSettingsQuery, useUpdateAdminSettingsMutation } =
-  adminSettingsApi;
+export const {
+  useGetPublicSettingsQuery,
+  useGetAdminSettingsQuery,
+  useUpdateAdminSettingsMutation,
+  useUploadLandingHeroMutation,
+} = adminSettingsApi;

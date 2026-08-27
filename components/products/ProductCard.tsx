@@ -6,6 +6,7 @@ import { ShoppingCart } from "lucide-react";
 
 import { formatPrice, type Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
+import { addToCartOrLogin } from "@/lib/addToCartOrLogin";
 
 interface ProductCardProps {
   product: Product;
@@ -15,14 +16,16 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
 
   const handleAddToCart = () => {
-    addItem({
-      id: product.id,
-      slug: product.slug,
-      name: product.name,
-      subtitle: product.subtitle,
-      image: product.image,
-      price: product.price,
-    });
+    void addToCartOrLogin(() =>
+      addItem({
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        subtitle: product.subtitle,
+        image: product.image,
+        price: product.price,
+      }),
+    );
   };
 
   return (

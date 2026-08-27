@@ -1,6 +1,15 @@
+"use client";
+
 import Button from "../ui/Button";
+import { useGetPublicSettingsQuery } from "@/redux/features/api/admin/settingsApi";
+
+const FALLBACK_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1765970101531-8d116223af49?w=534&h=534&fit=crop&auto=format";
 
 export default function Hero() {
+  const { data } = useGetPublicSettingsQuery();
+  const heroImage = data?.landingHeroImageUrl || FALLBACK_HERO_IMAGE;
+
   return (
     <section className="relative overflow-hidden min-h-[520px] sm:min-h-[600px] lg:min-h-[800px] flex items-center">
       {/* Gradient background */}
@@ -48,8 +57,9 @@ export default function Hero() {
 
           {/* Hero image */}
           <div className="relative shrink-0 w-full max-w-[260px] sm:max-w-[380px] lg:max-w-[534px] aspect-square lg:w-[534px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://images.unsplash.com/photo-1765970101531-8d116223af49?w=534&h=534&fit=crop&auto=format"
+              src={heroImage}
               alt="Central vacuum system"
               className="w-full h-full object-cover mix-blend-multiply rounded-2xl"
             />

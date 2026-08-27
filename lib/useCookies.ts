@@ -5,12 +5,18 @@ import type { User } from "@/types/auth/authTypes";
 export const ACCESS_TOKEN_KEY = "elite-access-token";
 export const REFRESH_TOKEN_KEY = "elite-refresh-token";
 export const USER_KEY = "elite-user";
+export const AUTH_CHANGED_EVENT = "elite-auth-changed";
 
 const cookieOptions = {
   path: "/",
   sameSite: "lax" as const,
   secure: process.env.NODE_ENV === "production",
 };
+
+function notifyAuthChanged() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(AUTH_CHANGED_EVENT));
+}
 
 /* ── Access Token ───────────────────────── */
 
@@ -86,6 +92,7 @@ export const setAuthCookies = (
   if (user) {
     setUser(user);
   }
+  notifyAuthChanged();
 };
 
 /* ── Clear ──────────────────────────────── */
@@ -97,4 +104,5 @@ export const clearAuthCookies = () => {
     Cookies.remove(key, { path: "/" });
     Cookies.remove(key);
   });
+  notifyAuthChanged();
 };

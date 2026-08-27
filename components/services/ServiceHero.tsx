@@ -71,7 +71,7 @@ export default function ServiceHero({
                     <div className="flex justify-center lg:justify-end">
                         <div className="relative h-[220px] w-full max-w-[360px] sm:h-[310px] sm:max-w-[520px] lg:h-[380px]">
                             <Image
-                                src="/images/products/elite-500-2.png"
+                                src="/images/services/service-hero.jpg"
                                 alt="Professional vacuum"
                                 fill
                                 priority

@@ -356,7 +356,12 @@ export default function ProductEditorCard({
             <div className="prod-editor-image-list">
               {imageUrls.map((url) => (
                 <div key={url} className="prod-editor-image-chip">
-                  <span>{url}</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={url}
+                    alt=""
+                    className="prod-editor-image-chip__img"
+                  />
                   <button
                     type="button"
                     className="admin-btn admin-btn--ghost"

@@ -12,16 +12,23 @@ import {
 } from "react";
 
 import type { CartItem } from "@/types/commerce";
-import { mapServerCartItems } from "@/types/customer/cart";
-import { getAccessToken } from "@/lib/useCookies";
-import { calculateCartTotals } from "@/lib/commerce";
 import {
+  applyServerCartQuantity,
+  mapServerCartItems,
+} from "@/types/customer/cart";
+import { getAccessToken, AUTH_CHANGED_EVENT } from "@/lib/useCookies";
+import { calculateCartTotals } from "@/lib/commerce";
+import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
+import {
+  cartApi,
   useAddCartItemMutation,
   useClearCartMutation,
   useGetCartQuery,
   useRemoveCartItemMutation,
   useUpdateCartItemMutation,
 } from "@/redux/features/api/customer/cart/cartApi";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 interface CartTotals {
   subtotal: number;
@@ -46,10 +53,15 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const CART_KEY = "elite-cart";
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  const dispatch = useDispatch();
   const [guestItems, setGuestItems] = useState<CartItem[]>([]);
   const [ready, setReady] = useState(false);
   const [hasToken, setHasToken] = useState(false);
   const mergedRef = useRef(false);
+  const quantityTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>(
+    {},
+  );
+  const pendingQuantity = useRef<Record<string, number>>({});
 
   const { data: serverCart, isSuccess, isError } = useGetCartQuery(undefined, {
     skip: !hasToken,
@@ -60,8 +72,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [clearServerCart] = useClearCartMutation();
 
   useEffect(() => {
-    const token = Boolean(getAccessToken());
-    setHasToken(token);
+    const syncToken = () => setHasToken(Boolean(getAccessToken()));
+    syncToken();
     try {
       const stored = localStorage.getItem(CART_KEY);
       if (stored) {
@@ -78,7 +90,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } finally {
       setReady(true);
     }
+
+    window.addEventListener("focus", syncToken);
+    window.addEventListener(AUTH_CHANGED_EVENT, syncToken);
+    return () => {
+      window.removeEventListener("focus", syncToken);
+      window.removeEventListener(AUTH_CHANGED_EVENT, syncToken);
+    };
   }, []);
+
+  useEffect(() => {
+    if (!hasToken) mergedRef.current = false;
+  }, [hasToken]);
 
   useEffect(() => {
     if (!ready || hasToken) return;
@@ -119,6 +142,57 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return calculateCartTotals(items);
   }, [hasToken, items, serverCart]);
 
+  const patchCachedQuantity = useCallback(
+    (productId: string, quantity: number) => {
+      dispatch(
+        cartApi.util.updateQueryData("getCart", undefined, (draft) => {
+          applyServerCartQuantity(draft, productId, quantity);
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  const flushQuantity = useCallback(
+    async (productId: string) => {
+      const quantity = pendingQuantity.current[productId];
+      delete pendingQuantity.current[productId];
+      delete quantityTimers.current[productId];
+      if (quantity === undefined) return;
+      try {
+        if (quantity <= 0) {
+          await removeCartItem(productId).unwrap();
+          return;
+        }
+        await updateCartItem({ productId, quantity }).unwrap();
+      } catch (error) {
+        dispatch(cartApi.util.invalidateTags(["Cart"]));
+        toast.error(getApiErrorMessage(error, "Could not update quantity."));
+      }
+    },
+    [dispatch, removeCartItem, updateCartItem],
+  );
+
+  const scheduleQuantitySync = useCallback(
+    (productId: string, quantity: number) => {
+      pendingQuantity.current[productId] = quantity;
+      if (quantityTimers.current[productId]) {
+        clearTimeout(quantityTimers.current[productId]);
+      }
+      quantityTimers.current[productId] = setTimeout(() => {
+        void flushQuantity(productId);
+      }, 280);
+    },
+    [flushQuantity],
+  );
+
+  useEffect(() => {
+    const timers = quantityTimers.current;
+    return () => {
+      Object.values(timers).forEach((timer) => clearTimeout(timer));
+    };
+  }, []);
+
   const addItem = useCallback(
     async (item: Omit<CartItem, "quantity">, quantity = 1) => {
       if (getAccessToken()) {
@@ -143,29 +217,39 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const removeItem = useCallback(
     async (id: string) => {
       if (getAccessToken()) {
-        await removeCartItem(id).unwrap();
+        patchCachedQuantity(id, 0);
+        try {
+          await removeCartItem(id).unwrap();
+        } catch (error) {
+          dispatch(cartApi.util.invalidateTags(["Cart"]));
+          toast.error(getApiErrorMessage(error, "Could not remove this item."));
+        }
         return;
       }
       setGuestItems((current) => current.filter((item) => item.id !== id));
     },
-    [removeCartItem],
+    [dispatch, patchCachedQuantity, removeCartItem],
   );
 
   const updateQuantity = useCallback(
     async (id: string, quantity: number) => {
-      if (quantity <= 0) {
-        await removeItem(id);
+      if (!getAccessToken()) {
+        if (quantity <= 0) {
+          setGuestItems((current) =>
+            current.filter((item) => item.id !== id),
+          );
+          return;
+        }
+        setGuestItems((current) =>
+          current.map((item) => (item.id === id ? { ...item, quantity } : item)),
+        );
         return;
       }
-      if (getAccessToken()) {
-        await updateCartItem({ productId: id, quantity }).unwrap();
-        return;
-      }
-      setGuestItems((current) =>
-        current.map((item) => (item.id === id ? { ...item, quantity } : item)),
-      );
+
+      patchCachedQuantity(id, quantity);
+      scheduleQuantitySync(id, quantity);
     },
-    [removeItem, updateCartItem],
+    [patchCachedQuantity, scheduleQuantitySync],
   );
 
   const clearCart = useCallback(async () => {

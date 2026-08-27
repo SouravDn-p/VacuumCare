@@ -71,6 +71,7 @@ const publicAuthRoutes = [
   "/auth/reset-password",
   "/auth/refresh",
   "/auth/logout",
+  "/public/",
 ];
 
 const shouldSkipRefresh = (args: string | FetchArgs) => {

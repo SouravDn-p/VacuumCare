@@ -14,7 +14,18 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-COPY .env.local .env
+
+# Next.js inlines NEXT_PUBLIC_* at build time. Values come from .env.local
+# in the build context, or from non-empty Docker build-args (Compose).
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_BASE_URL
+RUN set -e; \
+  if [ -n "$NEXT_PUBLIC_API_URL" ]; then \
+    printf 'NEXT_PUBLIC_API_URL=%s\n' "$NEXT_PUBLIC_API_URL" >> .env.production.local; \
+  fi; \
+  if [ -n "$NEXT_PUBLIC_BASE_URL" ]; then \
+    printf 'NEXT_PUBLIC_BASE_URL=%s\n' "$NEXT_PUBLIC_BASE_URL" >> .env.production.local; \
+  fi
 
 ENV NEXT_TELEMETRY_DISABLED=1
 

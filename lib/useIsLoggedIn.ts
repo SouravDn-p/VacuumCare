@@ -2,14 +2,18 @@
 
 import { useSyncExternalStore } from "react";
 
-import { getAccessToken, getUser } from "@/lib/useCookies";
+import { getAccessToken, getUser, AUTH_CHANGED_EVENT } from "@/lib/useCookies";
 
 export type AuthKind = "guest" | "customer" | "other";
 
 function subscribe(onStoreChange: () => void) {
   if (typeof window === "undefined") return () => {};
   window.addEventListener("focus", onStoreChange);
-  return () => window.removeEventListener("focus", onStoreChange);
+  window.addEventListener(AUTH_CHANGED_EVENT, onStoreChange);
+  return () => {
+    window.removeEventListener("focus", onStoreChange);
+    window.removeEventListener(AUTH_CHANGED_EVENT, onStoreChange);
+  };
 }
 
 function getSnapshot(): AuthKind {

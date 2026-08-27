@@ -6,6 +6,7 @@ import Image from "next/image";
 import { formatPrice } from "@/data/products";
 import { toStoreProduct } from "@/lib/mapCatalogProduct";
 import { useCart } from "@/context/CartContext";
+import { addToCartOrLogin } from "@/lib/addToCartOrLogin";
 import { useGetCatalogProductsQuery } from "@/redux/features/api/customer/catalog/catalogApi";
 
 function CartIcon() {
@@ -126,16 +127,18 @@ export default function FeaturedProducts() {
               <button
                 type="button"
                 aria-label={`Add ${product.name} to cart`}
-                onClick={() =>
-                  addItem({
-                    id: product.id,
-                    slug: product.slug,
-                    name: product.name,
-                    subtitle: product.subtitle,
-                    image: product.image,
-                    price: product.price,
-                  })
-                }
+                onClick={() => {
+                  void addToCartOrLogin(() =>
+                    addItem({
+                      id: product.id,
+                      slug: product.slug,
+                      name: product.name,
+                      subtitle: product.subtitle,
+                      image: product.image,
+                      price: product.price,
+                    }),
+                  );
+                }}
                 className="bg-[#d9e9ff] p-2 rounded-full hover:bg-[#1a73e8] group transition-colors"
               >
                 <div className="group-hover:[&_path]:stroke-white">
