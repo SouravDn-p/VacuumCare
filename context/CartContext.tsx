@@ -29,6 +29,7 @@ import {
 } from "@/redux/features/api/customer/cart/cartApi";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import type { AppDispatch } from "@/redux/store/store";
 
 interface CartTotals {
   subtotal: number;
@@ -53,7 +54,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const CART_KEY = "elite-cart";
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [guestItems, setGuestItems] = useState<CartItem[]>([]);
   const [ready, setReady] = useState(false);
   const [hasToken, setHasToken] = useState(false);
