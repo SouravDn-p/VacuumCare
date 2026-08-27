@@ -1,0 +1,7 @@
+/* Stat value color modifier classes — one per stat card type */
+.admin-stat-card__value--blue      { color: #155dfc; }
+.admin-stat-card__value--purple    { color: #7f22fe; }
+.admin-stat-card__value--cyan      { color: #0084d1; }
+.admin-stat-card__value--teal      { color: #009689; }
+.admin-stat-card__value--orange    { color: #e17100; }
+.admin-stat-card__value--red       { color: #e7000b; }
