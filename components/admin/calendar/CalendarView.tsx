@@ -1,6 +1,5 @@
 "use client";
 
-import type { CalendarViewMode } from "./CalendarHeader";
 import {
   ADMIN_TIMEZONE,
   TIME_SLOTS,
@@ -9,6 +8,7 @@ import {
   formatDayHeader,
   monthCells,
   weekDates,
+  type CalendarViewMode,
   type CalEvent,
 } from "./calendarData";
 
@@ -143,17 +143,6 @@ export default function CalendarView({
 }: CalendarViewProps) {
   if (view === "Month") {
     return <MonthGrid anchor={anchor} events={events} timeZone={timeZone} />;
-  }
-
-  if (view === "Day") {
-    return (
-      <TimeGrid
-        days={[anchor]}
-        events={events}
-        label="Daily service calendar"
-        timeZone={timeZone}
-      />
-    );
   }
 
   return (

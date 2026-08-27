@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import CalendarHeader, { type CalendarViewMode } from "./CalendarHeader";
+import CalendarHeader from "./CalendarHeader";
 import CalendarView from "./CalendarView";
 import TodayScheduleList from "./TodayScheduleList";
 import {
@@ -10,9 +10,10 @@ import {
   dateKey,
   formatEventTime,
   hourToSlot,
-  monthRange,
+  monthGridRange,
   weekRange,
   zonedDateParts,
+  type CalendarViewMode,
   type CalEvent,
 } from "./calendarData";
 import { useGetAdminScheduleQuery } from "@/redux/features/api/admin/scheduleApi";
@@ -28,8 +29,8 @@ export default function CalendarDashboard() {
   const requestId = searchParams.get("requestId") ?? "";
   const technicianId = searchParams.get("technicianId") ?? "";
 
-  const [activeView, setActiveView] = useState<CalendarViewMode>("Day");
   const [modalOpen, setModalOpen] = useState(Boolean(requestId));
+  const [view, setView] = useState<CalendarViewMode>("Week");
   const [timeZone, setTimeZone] = useState(ADMIN_TIMEZONE);
   const today = useMemo(() => new Date(), []);
 
@@ -41,12 +42,10 @@ export default function CalendarDashboard() {
     setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC");
   }, []);
 
-  const range = useMemo(() => {
-    if (activeView === "Month") return monthRange(today);
-    if (activeView === "Week") return weekRange(today);
-    const day = dateKey(today, timeZone);
-    return { from: day, to: day };
-  }, [activeView, timeZone, today]);
+  const range = useMemo(
+    () => (view === "Month" ? monthGridRange(today) : weekRange(today)),
+    [today, view],
+  );
 
   const { data = [] } = useGetAdminScheduleQuery({
     from: range.from,
@@ -70,8 +69,8 @@ export default function CalendarDashboard() {
   return (
     <>
       <CalendarHeader
-        activeView={activeView}
-        onViewChange={setActiveView}
+        activeView={view}
+        onViewChange={setView}
         modalOpen={modalOpen}
         onOpenModal={() => setModalOpen(true)}
         onCloseModal={() => setModalOpen(false)}
@@ -79,7 +78,7 @@ export default function CalendarDashboard() {
         initialTechnicianId={technicianId}
       />
       <CalendarView
-        view={activeView}
+        view={view}
         anchor={today}
         events={events}
         timeZone={timeZone}

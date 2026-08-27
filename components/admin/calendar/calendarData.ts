@@ -3,6 +3,13 @@ export const ADMIN_TIMEZONE =
     ? "UTC"
     : Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
 
+export type CalendarViewMode = "Week" | "Month";
+
+export const CALENDAR_VIEWS: { id: CalendarViewMode; label: string }[] = [
+  { id: "Week", label: "Weekly" },
+  { id: "Month", label: "Monthly" },
+];
+
 export interface CalEvent {
   id: string;
   ymd: string;
@@ -91,6 +98,14 @@ export function monthRange(anchor = new Date()) {
   return {
     from: toDateInput(start),
     to: toDateInput(end),
+  };
+}
+
+export function monthGridRange(anchor = new Date()) {
+  const cells = monthCells(anchor);
+  return {
+    from: toDateInput(cells[0]),
+    to: toDateInput(cells[cells.length - 1]),
   };
 }
 

@@ -2,8 +2,7 @@
 
 import { Plus } from "lucide-react";
 import ScheduleServiceModal from "./ScheduleServiceModal";
-
-export type CalendarViewMode = "Day" | "Week" | "Month";
+import { CALENDAR_VIEWS, type CalendarViewMode } from "./calendarData";
 
 interface CalendarHeaderProps {
   activeView: CalendarViewMode;
@@ -33,17 +32,17 @@ export default function CalendarHeader({
         </div>
 
         <div className="cal-header__controls">
-          <div className="cal-view-tabs" role="group" aria-label="Calendar view">
-            {(["Day", "Week", "Month"] as CalendarViewMode[]).map((view) => (
+          <div className="cal-view-tabs" role="tablist" aria-label="Calendar view">
+            {CALENDAR_VIEWS.map((view) => (
               <button
-                key={view}
+                key={view.id}
                 type="button"
-                id={`cal-tab-${view.toLowerCase()}`}
-                className={`cal-view-tab${activeView === view ? " cal-view-tab--active" : ""}`}
-                onClick={() => onViewChange(view)}
-                aria-pressed={activeView === view}
+                role="tab"
+                aria-selected={activeView === view.id}
+                className={`cal-view-tab${activeView === view.id ? " cal-view-tab--active" : ""}`}
+                onClick={() => onViewChange(view.id)}
               >
-                {view}
+                {view.label}
               </button>
             ))}
           </div>

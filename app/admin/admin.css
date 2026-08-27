@@ -1264,7 +1264,7 @@ input:disabled {
 }
 
 /* --------------------------------------------------------------------------
-   Day / Week / Month segmented tabs
+   Weekly / Monthly segmented tabs
    -------------------------------------------------------------------------- */
 .cal-view-tabs {
   display: flex;
@@ -1273,9 +1273,9 @@ input:disabled {
 
 .cal-view-tab {
   display: flex;
-  width: 87px;
+  min-width: 96px;
   height: 36px;
-  padding: 10px 14px;
+  padding: 10px 16px;
   justify-content: center;
   align-items: center;
   gap: 4px;
@@ -1707,9 +1707,9 @@ input:disabled {
   }
 
   .cal-view-tab {
-    width: 60px;
+    min-width: 0;
     font-size: 13px;
-    padding: 6px 8px;
+    padding: 6px 10px;
   }
 
   .cal-schedule-btn__text {
