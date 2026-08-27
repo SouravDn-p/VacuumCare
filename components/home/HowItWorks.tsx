@@ -23,15 +23,15 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="max-w-[1920px] mx-auto px-6 lg:px-[300px] py-16">
+    <section className="max-w-[1320px] mx-auto px-5 sm:px-8 lg:px-10 py-12 sm:py-16">
       <h2
-        className="text-[30px] font-extrabold text-[#1a73e8] text-center leading-[36px] mb-16"
+        className="text-[26px] sm:text-[30px] font-extrabold text-[#1a73e8] text-center leading-[36px] mb-10 sm:mb-16"
         style={{ fontFamily: "Manrope, sans-serif" }}
       >
         The Path to Pristine
       </h2>
 
-      <div className="relative flex flex-col md:flex-row items-start justify-between gap-8 md:gap-0">
+      <div className="relative flex flex-col md:flex-row items-center justify-between gap-10 md:gap-0">
         {/* Connector line (desktop only) */}
         <div
           className="hidden md:block absolute top-6 bg-[rgba(192,200,200,0.3)] h-[2px]"

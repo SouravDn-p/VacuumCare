@@ -21,7 +21,7 @@ export default function FloorPortInventoryCard({
               <th className="eq-table__th" scope="col">Floor</th>
               <th className="eq-table__th" scope="col">HDH</th>
               <th className="eq-table__th" scope="col">Chameleon</th>
-              <th className="eq-table__th" scope="col">Chameleon-Elite</th>
+              <th className="eq-table__th" scope="col">Chameleon-Enhancement</th>
               <th className="eq-table__th" scope="col">Standard</th>
               <th className="eq-table__th" scope="col">Total</th>
             </tr>

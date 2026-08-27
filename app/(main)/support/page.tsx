@@ -8,7 +8,7 @@ import SupportSidebar from "@/components/support/SupportSidebar";
 export const metadata: Metadata = {
   title: "Support Center",
   description:
-    "Get technical support, installation assistance, warranty information, and service help from Elite Central Vacuum.",
+    "Get technical support, installation assistance, warranty information, and service help from Enhancement.",
 };
 
 export default function SupportPage() {

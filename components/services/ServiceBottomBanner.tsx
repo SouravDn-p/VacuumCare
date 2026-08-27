@@ -13,7 +13,7 @@ export default function ServiceBottomBanner({
                 <div className="relative min-h-[340px] overflow-hidden rounded-[20px]">
                     <Image
                         src="https://images.unsplash.com/photo-1758523670739-0d26a3ee976d?w=1320&h=516&fit=crop&auto=format"
-                        alt="Elite Central Vacuum service vehicle"
+                        alt="Enhancement service vehicle"
                         fill
                         sizes="(max-width: 1320px) 100vw, 1320px"
                         className="object-cover"

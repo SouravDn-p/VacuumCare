@@ -45,7 +45,7 @@ const AboutStory = () => {
             style={{ fontFamily: "Inter, sans-serif" }}
           >
             <p>
-              Elite was born out of frustration with the standard repair
+              Enhancement was born out of frustration with the standard repair
               experience. We saw a world of slow callbacks, opaque pricing, and
               inconsistent quality in the built-in vacuum industry.
             </p>

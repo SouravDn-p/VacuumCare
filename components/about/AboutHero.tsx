@@ -20,14 +20,14 @@ const AboutHero = () => {
                 className="text-[14px] font-semibold text-[#1a73e8] tracking-[1.4px] uppercase mb-4"
                 style={{ fontFamily: "Inter, sans-serif" }}
               >
-                THE ELITE STORY
+                THE ENHANCEMENT STORY
               </p>
 
               <h1
                 className="text-[clamp(38px,6vw,64px)] font-extrabold text-[#0959c7] leading-[1.08] tracking-[-1.5px]"
                 style={{ fontFamily: "Manrope, sans-serif" }}
               >
-                About Elite
+                About Enhancement
                 <br className="hidden sm:block" />
                 Central Vacuum
               </h1>
@@ -47,7 +47,7 @@ const AboutHero = () => {
               <div className="absolute top-0 left-[10%] sm:left-[14%] w-[58%] sm:w-[56%] aspect-[1.28/1] rounded-[24px] overflow-hidden shadow-sm">
                 <img
                   src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&h=560&fit=crop&auto=format"
-                  alt="Elite Central Vacuum service home"
+                  alt="Enhancement service home"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -56,7 +56,7 @@ const AboutHero = () => {
               <div className="absolute left-0 bottom-[2%] sm:bottom-0 w-[52%] aspect-square rounded-[24px] overflow-hidden shadow-sm">
                 <img
                   src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=550&h=550&fit=crop&auto=format"
-                  alt="Elite service vehicle"
+                  alt="Enhancement service vehicle"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -65,7 +65,7 @@ const AboutHero = () => {
               <div className="absolute right-0 bottom-[14%] sm:bottom-[12%] w-[52%] aspect-square rounded-[24px] overflow-hidden shadow-sm">
                 <img
                   src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=550&h=550&fit=crop&auto=format"
-                  alt="Elite home services"
+                  alt="Enhancement home services"
                   className="w-full h-full object-cover"
                 />
               </div>

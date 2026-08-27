@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import Link from "next/link";
 
 import {
   CloudUpload,
@@ -19,6 +20,8 @@ import {
 } from "lucide-react";
 
 import AddressModal from "../profile/AddressModal";
+
+import { isAuthQueryError, useAuthKind } from "@/lib/useIsLoggedIn";
 
 import {
   useAddAddressMutation,
@@ -46,17 +49,20 @@ interface Props {
 export default function ServiceRequestSection({
   activeTab,
 }: Props) {
+  const authKind = useAuthKind();
+  const isCustomer = authKind === "customer";
+
   const {
     data: profile,
     isLoading: isProfileLoading,
     error: profileError,
-  } = useGetProfileQuery();
+  } = useGetProfileQuery(undefined, { skip: !isCustomer });
 
   const {
     data: catalogData,
     isLoading: isCatalogLoading,
     error: catalogError,
-  } = useGetServiceCatalogQuery();
+  } = useGetServiceCatalogQuery(undefined, { skip: !isCustomer });
 
   const catalog = catalogData ?? EMPTY_CATALOG;
 
@@ -256,6 +262,10 @@ export default function ServiceRequestSection({
   ) => {
     event.preventDefault();
 
+    if (authBlocked) {
+      return;
+    }
+
     setFormError("");
     setSuccessMessage("");
 
@@ -339,7 +349,17 @@ export default function ServiceRequestSection({
     : "";
 
   const isPageLoading =
-    isProfileLoading || isCatalogLoading;
+    isCustomer && (isProfileLoading || isCatalogLoading);
+
+  const authBlocked =
+    !isCustomer ||
+    isAuthQueryError(profileError) ||
+    isAuthQueryError(catalogError);
+
+  const loadFailed =
+    isCustomer &&
+    !authBlocked &&
+    Boolean(profileError || catalogError);
 
   return (
     <>
@@ -448,7 +468,8 @@ export default function ServiceRequestSection({
                       onClick={() =>
                         setAddressModalOpen(true)
                       }
-                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0875f5]"
+                      disabled={authBlocked}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0875f5] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Plus size={13} />
                       Add New
@@ -462,7 +483,7 @@ export default function ServiceRequestSection({
                         event.target.value,
                       )
                     }
-                    disabled={isProfileLoading}
+                    disabled={authBlocked || isProfileLoading}
                     className={inputClass}
                   >
                     <option value="">
@@ -505,7 +526,7 @@ export default function ServiceRequestSection({
                     <select
                       value={selectedCategoryId}
                       onChange={handleCategoryChange}
-                      disabled={isCatalogLoading}
+                      disabled={authBlocked || isCatalogLoading}
                       className={`${inputClass} mt-2`}
                     >
                       <option value="">
@@ -538,6 +559,7 @@ export default function ServiceRequestSection({
                         )
                       }
                       disabled={
+                        authBlocked ||
                         !selectedCategory ||
                         selectedCategory.issues.length === 0
                       }
@@ -715,7 +737,29 @@ export default function ServiceRequestSection({
                   </p>
                 </div>
 
-                {(profileError || catalogError) && (
+                {authBlocked && (
+                  <div className="mt-5 rounded-[8px] border border-[#d7e6f6] bg-[#f5f9ff] px-4 py-3">
+                    <p className="text-[13px] leading-6 text-[#3d4a54]">
+                      Log in to submit this request.{" "}
+                      <Link
+                        href="/login?next=/services"
+                        className="font-semibold text-[#0875f5] hover:underline"
+                      >
+                        Log in
+                      </Link>
+                      {" or "}
+                      <Link
+                        href="/signup"
+                        className="font-semibold text-[#0875f5] hover:underline"
+                      >
+                        create an account
+                      </Link>
+                      .
+                    </p>
+                  </div>
+                )}
+
+                {loadFailed && (
                   <div className="mt-5 rounded-[8px] border border-red-100 bg-red-50 px-4 py-3">
                     <p className="text-[12px] text-red-600">
                       Unable to load some required
@@ -744,6 +788,7 @@ export default function ServiceRequestSection({
                 <button
                   type="submit"
                   disabled={
+                    authBlocked ||
                     isPageLoading ||
                     isSubmitting ||
                     !selectedAddressId ||
@@ -754,7 +799,9 @@ export default function ServiceRequestSection({
                 >
                   {isSubmitting
                     ? "Submitting..."
-                    : "Submit Request"}
+                    : authBlocked
+                      ? "Log in to submit"
+                      : "Submit Request"}
 
                   {!isSubmitting && (
                     <Send

@@ -5,7 +5,7 @@ import NotificationsList from "@/components/notifications/NotificationsList";
 export const metadata: Metadata = {
   title: "Notifications",
   description:
-    "View your Elite Central Vacuum service, order and payment notifications.",
+    "View your Enhancement service, order and payment notifications.",
 };
 
 export default function NotificationsPage() {

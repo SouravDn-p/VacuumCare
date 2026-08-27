@@ -25,7 +25,7 @@ export default function CTABanner() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 px-[120px] py-16 flex flex-col gap-8 max-w-[720px]">
+        <div className="relative z-10 px-6 md:px-[120px] py-16 flex flex-col gap-8 max-w-[720px]">
           <h2
             className="text-[clamp(32px,4vw,48px)] font-extrabold text-white leading-[1.0]"
             style={{ fontFamily: "Manrope, sans-serif" }}

@@ -219,10 +219,10 @@ export default function Navbar() {
           <Link
             href="/"
             className="flex shrink-0 items-center"
-            aria-label="Elite Central Vacuum home"
+            aria-label="Enhancement home"
           >
             <div className="flex items-center gap-2">
-             <Image src="/images/logo.png" alt="Elite Central Vacuum" width={100} height={100} className="w-10 h-10 object-contain" />
+             <Image src="/images/logo.png" alt="Enhancement" width={100} height={100} className="w-10 h-10 object-contain" />
             </div>
           </Link>
 

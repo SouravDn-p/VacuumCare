@@ -1,6 +1,16 @@
+import Image from "next/image";
+import Link from "next/link";
+
 const footerLinks = {
-  Explore: ["Products", "Services"],
-  Company: ["About Us", "Privacy Policy", "Terms of Service"],
+  Explore: [
+    { label: "Products", href: "/products" },
+    { label: "Services", href: "/services" },
+  ],
+  Company: [
+    { label: "About Us", href: "/about" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
+  ],
 };
 
 export default function Footer() {
@@ -9,26 +19,15 @@ export default function Footer() {
       <div className="max-w-[1320px] mx-auto px-5 sm:px-8 lg:px-10 pt-14 sm:pt-20 pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 mb-10">
           {/* Brand */}
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="6" stroke="white" strokeWidth="2" />
-                  <path
-                    d="M5 8h6M8 5v6"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <span
-                className="text-[22px] font-extrabold tracking-tight text-white"
-                style={{ fontFamily: "Manrope, sans-serif" }}
-              >
-                ELITE
-              </span>
-            </div>
+          <div className="flex flex-col gap-4 items-center text-center sm:items-start sm:text-left">
+          <Image
+            src="/images/white-text-logo.png"
+            alt="Enhancement Footer Logo"
+            width={320}
+            height={100}
+            className=" h-auto w-[200px] py-1"
+            priority
+          />
             <p
               className="text-[14px] text-[#cadbdb] leading-[1.625]"
               style={{ fontFamily: "Inter, sans-serif" }}
@@ -40,7 +39,10 @@ export default function Footer() {
 
           {/* Explore & Company */}
           {Object.entries(footerLinks).map(([heading, items]) => (
-            <div key={heading} className="flex flex-col gap-6">
+            <div
+              key={heading}
+              className="flex flex-col gap-6 items-center text-center sm:items-start sm:text-left"
+            >
               <p
                 className="text-[16px] font-semibold text-white"
                 style={{ fontFamily: "Inter, sans-serif" }}
@@ -49,14 +51,14 @@ export default function Footer() {
               </p>
               <ul className="flex flex-col gap-4">
                 {items.map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
+                  <li key={item.label}>
+                    <Link
+                      href={item.href}
                       className="text-[14px] text-[#cadbdb] hover:text-white transition-colors leading-[1.625]"
                       style={{ fontFamily: "Inter, sans-serif" }}
                     >
-                      {item}
-                    </a>
+                      {item.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -64,15 +66,18 @@ export default function Footer() {
           ))}
 
           {/* Contact */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 items-center text-center sm:items-start sm:text-left">
             <p
               className="text-[14px] font-semibold text-[#f9fafb] tracking-wide uppercase"
               style={{ fontFamily: "Inter, sans-serif" }}
             >
               Contact Us
             </p>
-            <div className="flex flex-col gap-2">
-              <div className="flex gap-2 items-start">
+            <div className="flex flex-col gap-2 items-center sm:items-start">
+              <Link
+                href="/contact"
+                className="flex gap-2 items-start justify-center sm:justify-start"
+              >
                 <svg
                   className="shrink-0 mt-0.5"
                   width="16"
@@ -97,12 +102,15 @@ export default function Footer() {
                   className="text-[14px] text-[#cadbdb] leading-[1.45]"
                   style={{ fontFamily: "Inter, sans-serif" }}
                 >
-                  123 Elite Plaza, Wellness Drive
+                  123 Enhancement Plaza, Wellness Drive
                   <br />
                   Greenwich, CT 06830
                 </p>
-              </div>
-              <div className="flex gap-2 items-center">
+              </Link>
+              <a
+                href="tel:+1880555465215"
+                className="flex gap-2 items-center justify-center sm:justify-start"
+              >
                 <svg
                   className="shrink-0"
                   width="16"
@@ -123,8 +131,11 @@ export default function Footer() {
                 >
                   +1 (880) 555-465215
                 </p>
-              </div>
-              <div className="flex gap-2 items-center">
+              </a>
+              <a
+                href="mailto:service@enhancement.com"
+                className="flex gap-2 items-center justify-center sm:justify-start"
+              >
                 <svg
                   className="shrink-0"
                   width="18"
@@ -143,18 +154,20 @@ export default function Footer() {
                   className="text-[14px] text-[#cadbdb] leading-[1.75] break-all"
                   style={{ fontFamily: "Inter, sans-serif" }}
                 >
-                  service@elitecentralvac.com
+                  service@enhancement.com
                 </p>
-              </div>
+              </a>
             </div>
           </div>
         </div>
 
         {/* Social icons */}
-        <div className="flex gap-3.5 mb-8">
+        <div className="flex gap-3.5 mb-8 justify-center sm:justify-start">
           {/* Facebook */}
           <a
-            href="#"
+            href="https://facebook.com"
+            target="_blank"
+            rel="noreferrer"
             className="hover:opacity-75 transition-opacity"
             aria-label="Facebook"
           >
@@ -183,7 +196,9 @@ export default function Footer() {
           </a>
           {/* Instagram */}
           <a
-            href="#"
+            href="https://instagram.com"
+            target="_blank"
+            rel="noreferrer"
             className="hover:opacity-75 transition-opacity"
             aria-label="Instagram"
           >
@@ -213,7 +228,9 @@ export default function Footer() {
           </a>
           {/* LinkedIn */}
           <a
-            href="#"
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noreferrer"
             className="hover:opacity-75 transition-opacity"
             aria-label="LinkedIn"
           >
@@ -249,7 +266,7 @@ export default function Footer() {
             className="text-[13px] sm:text-[14px] text-[#f9fafb] text-center leading-[1.75]"
             style={{ fontFamily: "Inter, sans-serif" }}
           >
-            © 2025 | ELITE CENTRAL VACCUM SERVICES LLC.
+            © 2026 | ENHANCEMENT SERVICES LLC.
           </p>
         </div>
       </div>

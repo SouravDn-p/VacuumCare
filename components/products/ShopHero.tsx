@@ -42,7 +42,7 @@ export default function ShopHero() {
             <div className="relative w-[360px] h-[260px]">
               <Image
                 src="/images/products/wall-inlets.png"
-                alt="Elite Central Vacuum product"
+                alt="Enhancement product"
                 fill
                 className="object-contain"
               />

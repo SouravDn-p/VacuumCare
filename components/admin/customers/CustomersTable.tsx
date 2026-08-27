@@ -11,7 +11,7 @@ import type {
 interface CustomersTableProps {
   customers: CustomerItem[];
   expandedId?: string | null;
-  expandedMode?: "profile" | "edit" | null;
+  expandedMode?: "edit" | null;
   detail?: AdminCustomerDetail;
   saving?: boolean;
   onProfile?: (id: string) => void;
@@ -90,17 +90,17 @@ export default function CustomersTable({
                       </div>
                     </td>
                   </tr>
-                  {expandedId === cust.id && (
+                  {expandedId === cust.id && expandedMode === "edit" && (
                     <tr key={`${cust.id}-details`} className="cust-table__tr">
                       <td colSpan={7} className="cust-table__td">
-                        {expandedMode === "edit" && detail?.id === cust.id ? (
+                        {detail?.id === cust.id ? (
                           <CustomerEditForm
                             detail={detail}
                             saving={saving}
                             onSave={(body) => onSave?.(cust.id, body)}
                           />
                         ) : (
-                          <CustomerProfile detail={detail} />
+                          <p className="cust-table__empty-text">Loading customer...</p>
                         )}
                       </td>
                     </tr>
@@ -111,30 +111,6 @@ export default function CustomersTable({
           </tbody>
         </table>
       </div>
-    </div>
-  );
-}
-
-function CustomerProfile({ detail }: { detail?: AdminCustomerDetail }) {
-  if (!detail) {
-    return <p className="cust-table__empty-text">Loading profile...</p>;
-  }
-
-  const primary = detail.addresses.find((address) => address.isPrimary) ?? detail.addresses[0];
-
-  return (
-    <div className="sr-customer-cell">
-      <span className="sr-customer-cell__name">
-        {detail.firstName} {detail.lastName}
-        {detail.company ? ` · ${detail.company}` : ""}
-      </span>
-      <span className="sr-customer-cell__subtext">
-        {detail.email} · {detail.phone || "No phone"} ·{" "}
-        {detail.isActive ? "Active" : "Inactive"}
-        {primary
-          ? ` · ${primary.line1}, ${primary.city}, ${primary.state} ${primary.zipCode}`
-          : ""}
-      </span>
     </div>
   );
 }

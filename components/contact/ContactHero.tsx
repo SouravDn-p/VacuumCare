@@ -7,7 +7,7 @@ export default function ContactHero() {
         {/* Background image */}
         <Image
           src="/images/contact/contact.png"
-          alt="Elite Central Vacuum professional service"
+          alt="Enhancement professional service"
           className="absolute inset-0 w-full h-full object-cover"
           width={1600}
           height={1600}

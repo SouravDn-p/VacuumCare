@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -65,14 +64,16 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       <aside className={`admin-sidebar${isOpen ? " admin-sidebar--open" : ""}`}>
         {/* Logo */}
         <div className="admin-sidebar__logo-wrap">
-          <Image
-            src="/images/admin-logo.png"
-            alt="Elite Admin"
-            width={80}
-            height={46}
-            className="admin-sidebar__logo"
+         <Link href="/">
+         <Image
+            src="/images/white-text-logo.png"
+            alt="Enhancement Admin"
+            width={320}
+            height={100}
+            className=" h-auto w-[180px]"
             priority
           />
+         </Link>
           {/* Mobile close button */}
           {isOpen && (
             <button

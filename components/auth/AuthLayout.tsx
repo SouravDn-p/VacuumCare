@@ -18,12 +18,12 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           <div className="pt-5 sm:pt-7">
             <Link href="/" className="inline-flex">
               <Image
-                src="/images/elite-logo.png"
-                alt="Elite Central Vacuum"
+                src="/images/logo.png"
+                alt="Enhancement"
                 width={120}
                 height={60}
-                priority
-                className="h-auto w-[110px] sm:w-[125px]"
+                priority  
+                className="h-auto w-[50px] sm:w-[45px]"
               />
             </Link>
           </div>
@@ -42,7 +42,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         <div className="relative hidden min-h-screen overflow-hidden rounded-l-[24px] lg:block">
           <Image
             src="/images/auth-image.png"
-            alt="Elite Central Vacuum service"
+            alt="Enhancement service"
             fill
             priority
             sizes="50vw"

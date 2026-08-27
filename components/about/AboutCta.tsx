@@ -16,15 +16,15 @@ const AboutCta = () => {
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           Experience the most sophisticated vacuum service in the industry. Your
-          home deserves the Elite standard.
+          home deserves the Enhancement standard.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button variant="primary" size="sm" className="min-w-[150px] rounded-full">
+          <Button href="/services" variant="primary" size="sm" className="min-w-[150px] rounded-full">
             Schedule Service
           </Button>
 
-          <Button variant="outline" size="sm" className="min-w-[150px]">
+          <Button href="/contact" variant="outline" size="sm" className="min-w-[150px]">
             Contact Our Team
           </Button>
         </div>

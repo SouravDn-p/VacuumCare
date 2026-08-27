@@ -7,7 +7,7 @@ export default function SupportBanner() {
         {/* Image */}
         <Image
           src="https://images.unsplash.com/photo-1758523670739-0d26a3ee976d?w=1320&h=516&fit=crop&auto=format"
-          alt="Elite Central Vacuum professional service vehicle"
+          alt="Enhancement professional service vehicle"
           fill
           sizes="(max-width: 1320px) 100vw, 1320px"
           className="object-cover"

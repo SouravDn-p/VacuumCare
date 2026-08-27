@@ -3,7 +3,7 @@ import InvoicePageClient from "@/components/invoices/InvoicePageClient";
 
 export const metadata: Metadata = {
   title: "Invoice",
-  description: "View and print your Elite Central Vacuum invoice.",
+  description: "View and print your Enhancement invoice.",
 };
 
 export default async function PaymentInvoicePage({

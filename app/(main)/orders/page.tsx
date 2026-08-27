@@ -4,7 +4,7 @@ import OrdersPageClient from "@/components/orders/OrdersPageClient";
 
 export const metadata: Metadata = {
   title: "My Orders",
-  description: "View and track your Elite Central Vacuum orders.",
+  description: "View and track your Enhancement orders.",
 };
 
 export default function OrdersPage() {

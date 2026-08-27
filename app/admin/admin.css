@@ -4102,6 +4102,157 @@ input:disabled {
   }
 }
 
+/* --------------------------------------------------------------------------
+   Customer profile page
+   -------------------------------------------------------------------------- */
+.cust-profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cust-profile-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cust-profile-header__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cust-profile-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #155dfc;
+  text-decoration: none;
+}
+
+.cust-profile-back:hover {
+  text-decoration: underline;
+}
+
+.cust-profile-header__title {
+  font-family: Inter, sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 120%;
+  color: #27272a;
+  margin: 0;
+}
+
+.cust-profile-header__subtitle {
+  font-family: Inter, sans-serif;
+  font-size: 15px;
+  color: #968c8c;
+  margin: 0;
+}
+
+.cust-profile-equipment-link,
+.eq-profile-link {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #155dfc;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.cust-profile-equipment-link:hover,
+.eq-profile-link:hover {
+  background: #f8fafc;
+}
+
+.cust-profile-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 24px;
+}
+
+.cust-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.cust-profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cust-profile-field--wide {
+  grid-column: 1 / -1;
+}
+
+.cust-profile-field__label {
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #968c8c;
+}
+
+.cust-profile-field__value {
+  font-family: Inter, sans-serif;
+  font-size: 15px;
+  color: #27272a;
+}
+
+.cust-profile-equipment {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cust-profile-equipment__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cust-profile-equipment__title {
+  font-family: Inter, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #27272a;
+  margin: 0;
+}
+
+.cust-profile-equipment__copy,
+.cust-profile-note,
+.cust-profile-empty {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .cust-profile-header__title {
+    font-size: 24px;
+  }
+
+  .cust-profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ==========================================================================
    EQUIPMENT & VACUUM PORTS (eq-)
    ========================================================================== */

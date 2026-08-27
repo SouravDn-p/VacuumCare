@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import CustomersSearch from "./CustomersSearch";
 import CustomersTable from "./CustomersTable";
@@ -15,10 +16,11 @@ import type { CustomerItem } from "./customersData";
 import AdminSubmitOverlay from "@/components/admin/ui/AdminSubmitOverlay";
 
 export default function CustomersContainer() {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [expandedMode, setExpandedMode] = useState<"profile" | "edit" | null>(null);
+  const [expandedMode, setExpandedMode] = useState<"edit" | null>(null);
   useEffect(() => {
     const timer = window.setTimeout(() => setDebouncedQuery(query.trim()), 300);
     return () => window.clearTimeout(timer);
@@ -48,21 +50,22 @@ export default function CustomersContainer() {
     }),
   }));
 
-  const toggleRow = (id: string, mode: "profile" | "edit") => {
-    if (expandedId === id && expandedMode === mode) {
+  const toggleEdit = (id: string) => {
+    if (expandedId === id && expandedMode === "edit") {
       setExpandedId(null);
       setExpandedMode(null);
       return;
     }
     setExpandedId(id);
-    setExpandedMode(mode);
+    setExpandedMode("edit");
   };
 
   const handleSave = async (id: string, body: AdminUpdateCustomerBody) => {
     try {
       await updateCustomer({ id, body }).unwrap();
       toast.success("Customer updated.");
-      setExpandedMode("profile");
+      setExpandedId(null);
+      setExpandedMode(null);
     } catch (error) {
       toast.error(getApiErrorMessage(error, "Could not update this customer."));
     }
@@ -77,8 +80,8 @@ export default function CustomersContainer() {
         expandedMode={expandedMode}
         detail={detail}
         saving={isSaving}
-        onProfile={(id) => toggleRow(id, "profile")}
-        onEdit={(id) => toggleRow(id, "edit")}
+        onProfile={(id) => router.push(`/admin/customers/${id}`)}
+        onEdit={toggleEdit}
         onSave={handleSave}
       />
       <AdminSubmitOverlay open={isSaving} message="Saving customer..." />

@@ -160,7 +160,7 @@ export default function ContactFormSection() {
               height="100%"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Elite Central Vacuum location"
+              title="Enhancement location"
               className="border-0"
             />
           </div>

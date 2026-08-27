@@ -4,7 +4,7 @@ import AdminLoginForm from "@/components/admin/auth/AdminLoginForm";
 
 export const metadata: Metadata = {
   title: "Admin Login",
-  description: "Secure admin portal login for Elite Central Vacuum system.",
+  description: "Secure admin portal login for the Enhancement system.",
 };
 
 export default function AdminLoginPage() {
@@ -16,7 +16,7 @@ export default function AdminLoginPage() {
         <div className="admin-login-card__sidebar">
           <Image
             src="/images/admin-logo.png"
-            alt="Elite Central Vacuum"
+            alt="Enhancement"
             width={110}
             height={64}
             className="admin-login-card__sidebar-logo"

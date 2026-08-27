@@ -4,7 +4,7 @@ import ServiceRequestsPageClient from "@/components/service-requests/ServiceRequ
 
 export const metadata: Metadata = {
   title: "Service Requests",
-  description: "View and track your Elite Central Vacuum service requests.",
+  description: "View and track your Enhancement service requests.",
 };
 
 export default function ServiceRequestsPage() {

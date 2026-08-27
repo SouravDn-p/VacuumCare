@@ -4,7 +4,7 @@ import ProfilePageClient from "@/components/profile/ProfilePageClient";
 
 export const metadata: Metadata = {
   title: "My Profile",
-  description: "Manage your Elite Central Vacuum profile and saved addresses.",
+  description: "Manage your Enhancement profile and saved addresses.",
 };
 
 export default function ProfilePage() {

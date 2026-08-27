@@ -135,7 +135,7 @@ export default function ChatModal() {
         {!token ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
             <p className="text-[14px] text-[#4f5960]">
-              Sign in to chat live with Elite support.
+              Sign in to chat live with Enhancement support.
             </p>
             <Link
               href="/login?next=/"
@@ -153,7 +153,7 @@ export default function ChatModal() {
             >
               {messages.length === 0 && (
                 <div className="self-start max-w-[80%] rounded-2xl rounded-bl-sm bg-[#e4edfb] px-4 py-2.5 text-[13.5px] leading-relaxed text-[#25313a]">
-                  Hi! Welcome to Elite Central Vacuums support. How can we help
+                  Hi! Welcome to Enhancement support. How can we help
                   you today?
                 </div>
               )}

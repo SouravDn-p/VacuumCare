@@ -5,7 +5,7 @@ import PaymentHistoryClient from "@/components/payments/PaymentHistoryClient";
 export const metadata: Metadata = {
   title: "Payment History",
   description:
-    "View and manage your Elite Central Vacuum transaction and payment history.",
+    "View and manage your Enhancement transaction and payment history.",
 };
 
 export default function PaymentHistoryPage() {

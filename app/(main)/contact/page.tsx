@@ -7,7 +7,7 @@ import ContactSupportCards from "@/components/contact/ContactSupportCards";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Contact Elite Central Vacuum for product support, installation, repair, maintenance, and professional central vacuum services.",
+    "Contact Enhancement for product support, installation, repair, maintenance, and professional central vacuum services.",
 };
 
 export default function ContactPage() {

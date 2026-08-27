@@ -8,7 +8,7 @@ import SettingsHeader from "@/components/settings/SettingsHeader";
 export const metadata: Metadata = {
   title: "Settings",
   description:
-    "Manage your Elite Central Vacuum account preferences, notifications and account settings.",
+    "Manage your Enhancement account preferences, notifications and account settings.",
 };
 
 export default function SettingsPage() {

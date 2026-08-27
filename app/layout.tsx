@@ -7,8 +7,8 @@ import ReduxProvider from "@/providers/ReduxProviders";
 
 export const metadata: Metadata = {
   title: {
-    default: "Elite Central Vacuum",
-    template: "%s | Elite Central Vacuum",
+    default: "Enhancement",
+    template: "%s | Enhancement",
   },
   description:
     "Premium central vacuum systems, installation, maintenance and repair services.",

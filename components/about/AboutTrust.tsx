@@ -15,7 +15,7 @@ const trustItems = [
   },
   {
     icon: Award,
-    label: "Elite Guarantee",
+    label: "Enhancement Guarantee",
   },
 ];
 
