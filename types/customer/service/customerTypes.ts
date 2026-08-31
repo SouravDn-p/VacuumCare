@@ -124,6 +124,7 @@ export interface ServiceRequestCustomer {
   email: string;
   firstName: string;
   lastName: string;
+  phone?: string | null;
 }
 
 export interface ServiceRequestAddress {
