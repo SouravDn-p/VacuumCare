@@ -9,6 +9,8 @@ interface ServiceRequestsTableProps {
   items: ServiceRequestItem[];
   onQuote?: (item: ServiceRequestItem) => void;
   onAssign?: (item: ServiceRequestItem) => void;
+  onApproveCounteroffer?: (counterofferId: string) => void;
+  onRejectCounteroffer?: (counterofferId: string) => void;
 }
 
 function quoteDisabledReason(status: string) {
@@ -70,10 +72,19 @@ function getBadgeClass(status: string) {
   }
 }
 
+function formatMoney(amount: number | string | null | undefined) {
+  if (amount == null || amount === "") return "—";
+  const value = Number(amount);
+  if (Number.isNaN(value)) return "—";
+  return `$${value.toFixed(2)}`;
+}
+
 export default function ServiceRequestsTable({
   items,
   onQuote,
   onAssign,
+  onApproveCounteroffer,
+  onRejectCounteroffer,
 }: ServiceRequestsTableProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -86,6 +97,7 @@ export default function ServiceRequestsTable({
               <th className="sr-table__th" scope="col">Request ID</th>
               <th className="sr-table__th" scope="col">Customer</th>
               <th className="sr-table__th" scope="col">Service</th>
+              <th className="sr-table__th" scope="col">Customer negotiation</th>
               <th className="sr-table__th" scope="col">Submitted</th>
               <th className="sr-table__th" scope="col">Status</th>
               <th className="sr-table__th" scope="col">Action</th>
@@ -94,12 +106,14 @@ export default function ServiceRequestsTable({
           <tbody>
             {items.length === 0 ? (
               <tr>
-                <td colSpan={6} className="sr-table__empty-cell">
+                    <td colSpan={7} className="sr-table__empty-cell">
                   <p className="sr-table__empty-text">No requests in this status.</p>
                 </td>
               </tr>
             ) : (
-              items.map((item) => (
+              items.map((item) => {
+                const pendingId = item.pendingNegotiationId;
+                return (
                 <Fragment key={item.id}>
                   <tr className="sr-table__tr">
                     {/* Request ID */}
@@ -118,6 +132,19 @@ export default function ServiceRequestsTable({
                     {/* Service */}
                     <td className="sr-table__td sr-table__td--service">
                       <span className="sr-table__service-text">{item.service}</span>
+                    </td>
+
+                    <td className="sr-table__td sr-table__td--negotiate">
+                      {item.customerNegotiationPrice == null ? (
+                        "—"
+                      ) : (
+                        <span className="quote-negotiate">
+                          {formatMoney(item.customerNegotiationPrice)}
+                          {item.pendingNegotiationId ? (
+                            <span className="quote-negotiate__pending">Pending</span>
+                          ) : null}
+                        </span>
+                      )}
                     </td>
 
                     {/* Submitted */}
@@ -167,13 +194,29 @@ export default function ServiceRequestsTable({
                         >
                           Assign
                         </AdminActionButton>
+                        {pendingId ? (
+                          <>
+                            <AdminActionButton
+                              variant="primary"
+                              onClick={() => onApproveCounteroffer?.(pendingId)}
+                            >
+                              Approve
+                            </AdminActionButton>
+                            <AdminActionButton
+                              variant="danger"
+                              onClick={() => onRejectCounteroffer?.(pendingId)}
+                            >
+                              Reject
+                            </AdminActionButton>
+                          </>
+                        ) : null}
                       </div>
                     </td>
                   </tr>
 
                   {expandedId === item.id && (
                     <tr key={`${item.id}-details`} className="sr-table__tr">
-                      <td colSpan={6} className="sr-table__td">
+                      <td colSpan={7} className="sr-table__td">
                         <div className="sr-customer-cell">
                           <span className="sr-customer-cell__name">
                             Request {item.requestId} · {item.customerName}
@@ -187,7 +230,8 @@ export default function ServiceRequestsTable({
                     </tr>
                   )}
                 </Fragment>
-              ))
+                );
+              })
             )}
           </tbody>
         </table>

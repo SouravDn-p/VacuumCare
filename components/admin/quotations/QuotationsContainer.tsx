@@ -13,7 +13,7 @@ import {
 import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
 import type { AdminQuoteStatus } from "@/types/admin/quotations";
 
-const TAB_TO_API: Record<QuotationTab, AdminQuoteStatus> = {
+const TAB_TO_API: Record<Exclude<QuotationTab, "All">, AdminQuoteStatus> = {
   Draft: "DRAFT",
   Sent: "SENT",
   Viewed: "VIEWED",
@@ -24,12 +24,12 @@ const TAB_TO_API: Record<QuotationTab, AdminQuoteStatus> = {
 };
 
 export default function QuotationsContainer() {
-  const [activeTab, setActiveTab] = useState<QuotationTab>("Sent");
+  const [activeTab, setActiveTab] = useState<QuotationTab>("All");
 
   const { data, isLoading } = useGetAdminQuotationsQuery({
-    status: TAB_TO_API[activeTab],
     page: 1,
     pageSize: 100,
+    ...(activeTab === "All" ? {} : { status: TAB_TO_API[activeTab] }),
   });
 
   const [approveCounteroffer] = useApproveAdminCounterofferMutation();

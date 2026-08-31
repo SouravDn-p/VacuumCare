@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Vercel injects its own adapter. Next 16.3 + standalone skips
+  // next-server.js.nft.json, which Vercel's onBuildComplete still opens.
+  output: process.env.VERCEL ? undefined : "standalone",
   /* config options here */
   images: {
     remotePatterns: [

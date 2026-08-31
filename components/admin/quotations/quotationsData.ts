@@ -1,4 +1,5 @@
 export type QuotationTab =
+  | "All"
   | "Draft"
   | "Sent"
   | "Viewed"
@@ -28,6 +29,7 @@ export interface QuotationItem {
 }
 
 export const QUOTATION_TABS: QuotationTab[] = [
+  "All",
   "Draft",
   "Sent",
   "Viewed",

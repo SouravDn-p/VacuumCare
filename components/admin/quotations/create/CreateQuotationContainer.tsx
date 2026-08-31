@@ -17,6 +17,11 @@ import {
   useGetAdminServiceRequestByIdQuery,
   useGetAdminServiceRequestsQuery,
 } from "@/redux/features/api/admin/serviceRequestsApi";
+import {
+  useApproveAdminCounterofferMutation,
+  useRejectAdminCounterofferMutation,
+} from "@/redux/features/api/admin/counteroffersApi";
+import CustomerNegotiationCard from "./CustomerNegotiationCard";
 import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
 import AdminSubmitOverlay from "@/components/admin/ui/AdminSubmitOverlay";
 
@@ -74,6 +79,11 @@ export default function CreateQuotationContainer() {
   );
   const [createQuotation, { isLoading: isSending }] =
     useCreateAdminQuotationMutation();
+  const [approveCounteroffer, { isLoading: isApproving }] =
+    useApproveAdminCounterofferMutation();
+  const [rejectCounteroffer, { isLoading: isRejecting }] =
+    useRejectAdminCounterofferMutation();
+  const isDeciding = isApproving || isRejecting;
 
   const quoteableRequests = useMemo(
     () =>
@@ -118,6 +128,16 @@ export default function CreateQuotationContainer() {
   const requestNumber = request?.requestNumber ?? "—";
   const quoteNumber = request?.quotation?.quoteNumber ?? "New quote";
   const quoteStatus = request?.quotation?.status;
+  const quotedAmount = Number(request?.quotation?.totalAmount ?? totalAmount);
+  const pendingNegotiation = (request?.quotation?.counteroffers ?? []).find(
+    (offer) => offer.status === "PENDING",
+  );
+  const negotiationAmount = pendingNegotiation
+    ? Number(pendingNegotiation.requestedTotal)
+    : request?.quotation?.negotiatedTotal != null
+      ? Number(request.quotation.negotiatedTotal)
+      : null;
+  const showNegotiation = negotiationAmount != null && !Number.isNaN(negotiationAmount);
   const isLocked = Boolean(
     (quoteStatus && LOCKED_QUOTE_STATUSES.has(quoteStatus)) ||
       (request?.status && LOCKED_REQUEST_STATUSES.has(request.status)),
@@ -182,6 +202,32 @@ export default function CreateQuotationContainer() {
     }
   };
 
+  const handleApproveNegotiation = async () => {
+    if (!pendingNegotiation) return;
+    try {
+      await approveCounteroffer({ id: pendingNegotiation.id }).unwrap();
+      toast.success(
+        "Offer approved. The customer still needs to accept the quotation.",
+      );
+    } catch (error) {
+      toast.error(
+        getApiErrorMessage(error, "Could not approve the customer offer."),
+      );
+    }
+  };
+
+  const handleRejectNegotiation = async () => {
+    if (!pendingNegotiation) return;
+    try {
+      await rejectCounteroffer({ id: pendingNegotiation.id }).unwrap();
+      toast.success("Customer offer rejected.");
+    } catch (error) {
+      toast.error(
+        getApiErrorMessage(error, "Could not reject the customer offer."),
+      );
+    }
+  };
+
   return (
     <div className="cq-page">
       <CreateQuotationHeader
@@ -222,6 +268,18 @@ export default function CreateQuotationContainer() {
             </div>
           )}
 
+          {showNegotiation && negotiationAmount != null ? (
+            <CustomerNegotiationCard
+              quotedAmount={quotedAmount}
+              requestedAmount={negotiationAmount}
+              note={pendingNegotiation?.note ?? null}
+              status={pendingNegotiation ? "PENDING" : "APPROVED"}
+              onApprove={handleApproveNegotiation}
+              onReject={handleRejectNegotiation}
+              isDeciding={isDeciding}
+            />
+          ) : null}
+
           <QuotePartsCard
             lines={partLines}
             onChange={setPartLines}
@@ -255,16 +313,25 @@ export default function CreateQuotationContainer() {
             customerName={customerName}
             serviceRequestId={requestNumber}
             totalAmount={totalAmount}
+            quotedAmount={quotedAmount}
+            customerOfferAmount={showNegotiation ? negotiationAmount : null}
+            offerPending={Boolean(pendingNegotiation)}
             onSendQuotation={handleSendQuotation}
             onSaveDraft={handleSaveDraft}
+            onApproveOffer={handleApproveNegotiation}
+            onRejectOffer={handleRejectNegotiation}
             isSending={isSending}
+            isDeciding={isDeciding}
             isDraftSaved={isDraftSaved}
             readOnly={isLocked}
             statusNote={lockNote}
           />
         </div>
       </div>
-      <AdminSubmitOverlay open={isSending} message="Sending quotation..." />
+      <AdminSubmitOverlay
+        open={isSending || isDeciding}
+        message={isDeciding ? "Updating negotiation..." : "Sending quotation..."}
+      />
     </div>
   );
 }

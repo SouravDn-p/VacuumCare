@@ -1,10 +1,10 @@
 "use client";
 
-import { STATUS_TABS, type RequestStatus } from "./serviceRequestsData";
+import { STATUS_TABS, type RequestTab } from "./serviceRequestsData";
 
 interface ServiceRequestsFilterTabsProps {
-  activeTab: RequestStatus;
-  onTabChange: (tab: RequestStatus) => void;
+  activeTab: RequestTab;
+  onTabChange: (tab: RequestTab) => void;
 }
 
 export default function ServiceRequestsFilterTabs({

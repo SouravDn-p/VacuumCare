@@ -40,8 +40,11 @@ function getStatusBadgeClass(status: QuotationStatus): string {
   }
 }
 
-function formatMoney(amount: number) {
-  return `$${amount.toFixed(2)}`;
+function formatMoney(amount: number | string | null | undefined) {
+  if (amount == null || amount === "") return "—";
+  const value = Number(amount);
+  if (Number.isNaN(value)) return "—";
+  return `$${value.toFixed(2)}`;
 }
 
 function formatDate(iso?: string | null) {
@@ -117,6 +120,7 @@ export default function QuotationsTable({
               <th className="quote-table__th" scope="col">Customer</th>
               <th className="quote-table__th" scope="col">Service</th>
               <th className="quote-table__th" scope="col">Amount</th>
+              <th className="quote-table__th" scope="col">Customer negotiation</th>
               <th className="quote-table__th" scope="col">Sent</th>
               <th className="quote-table__th" scope="col">Expires</th>
               <th className="quote-table__th" scope="col">Status</th>
@@ -126,14 +130,14 @@ export default function QuotationsTable({
           <tbody>
             {quotations.length === 0 ? (
               <tr>
-                <td colSpan={8} className="quote-table__empty-cell">
+                <td colSpan={9} className="quote-table__empty-cell">
                   <p className="quote-table__empty-text">No requests in this status.</p>
                 </td>
               </tr>
             ) : (
               quotations.map((qt) => {
                 const status = STATUS_LABEL[qt.status];
-                const amount = qt.negotiatedTotal ?? qt.totalAmount;
+                const amount = qt.totalAmount;
                 const canAssign = qt.request.status === "ACCEPTED";
                 const canRevise =
                   qt.status !== "ACCEPTED" &&
@@ -145,6 +149,8 @@ export default function QuotationsTable({
                   qt.request.status !== "COMPLETED" &&
                   qt.request.status !== "CANCELLED";
                 const pending = qt.pendingNegotiation;
+                const negotiationPrice =
+                  pending?.requestedTotal ?? qt.negotiatedTotal;
 
                 return (
                   <tr key={qt.id} className="quote-table__tr">
@@ -159,7 +165,18 @@ export default function QuotationsTable({
                     </td>
                     <td className="quote-table__td quote-table__td--amt">
                       {formatMoney(amount)}
-                      {pending ? ` · counter ${formatMoney(pending.requestedTotal)}` : ""}
+                    </td>
+                    <td className="quote-table__td quote-table__td--negotiate">
+                      {negotiationPrice == null ? (
+                        "—"
+                      ) : (
+                        <span className="quote-negotiate">
+                          {formatMoney(negotiationPrice)}
+                          {pending ? (
+                            <span className="quote-negotiate__pending">Pending</span>
+                          ) : null}
+                        </span>
+                      )}
                     </td>
                     <td className="quote-table__td quote-table__td--date">
                       {qt.status === "DRAFT" ? "------" : formatDate(qt.createdAt)}

@@ -9,6 +9,8 @@ export type RequestStatus =
   | "Completed"
   | "Cancelled";
 
+export type RequestTab = "All" | RequestStatus;
+
 export interface ServiceRequestItem {
   id: string;
   requestId: string;
@@ -18,11 +20,15 @@ export interface ServiceRequestItem {
   submitted: string;
   status: RequestStatus;
   statusLabel: string;
+  quoteAmount?: number | null;
+  customerNegotiationPrice?: number | null;
+  pendingNegotiationId?: string | null;
   canQuote?: boolean;
   canAssign?: boolean;
 }
 
-export const STATUS_TABS: RequestStatus[] = [
+export const STATUS_TABS: RequestTab[] = [
+  "All",
   "New",
   "Under Review",
   "Quote Sent",

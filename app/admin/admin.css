@@ -2825,7 +2825,7 @@ input:disabled {
 
 .sr-table {
   width: 100%;
-  min-width: 780px;
+  min-width: 960px;
   border-collapse: collapse;
   text-align: left;
 }
@@ -7067,7 +7067,7 @@ input:disabled {
 
 .quote-table {
   width: 100%;
-  min-width: 840px;
+  min-width: 1040px;
   border-collapse: collapse;
   text-align: left;
 }
@@ -7121,6 +7121,32 @@ input:disabled {
 .quote-table__td--amt {
   font-family: "DM Mono", Arial, monospace;
   color: #0f172b;
+}
+
+.quote-table__td--negotiate,
+.sr-table__td--negotiate {
+  font-family: "DM Mono", Arial, monospace;
+  color: #0f172b;
+  white-space: nowrap;
+}
+
+.quote-negotiate {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quote-negotiate__pending {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #fff7ed;
+  border: 0.5px solid #fdba74;
+  color: #c2410c;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
 }
 
 /* --------------------------------------------------------------------------
@@ -7682,6 +7708,42 @@ input:disabled {
 .cq-summary-actions .admin-btn {
   width: 100%;
   height: 40px;
+}
+
+.cq-negotiate-copy {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #62748e;
+}
+
+.cq-negotiate-note {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #364153;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cq-negotiate-note__label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #62748e;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.cq-negotiate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 /* --------------------------------------------------------------------------

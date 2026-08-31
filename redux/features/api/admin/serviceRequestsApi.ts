@@ -33,6 +33,7 @@ export const adminServiceRequestsApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: (_result, _error, id) => [
+        "AdminServiceRequests",
         { type: "AdminServiceRequests", id },
       ],
     }),

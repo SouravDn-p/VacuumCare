@@ -5,6 +5,7 @@ import type {
   AdminPaginatedResult,
   AdminPersonSummary,
 } from "./common";
+import type { AdminNegotiationSummary } from "./quotations";
 
 export type AdminServiceRequestStatus =
   | "NEW"
@@ -39,6 +40,12 @@ export interface AdminServiceRequestItem {
   issue: AdminNamedEntity | null;
   scheduledStart: string | null;
   createdAt: string;
+  quotation?: {
+    id: string;
+    totalAmount: number;
+    negotiatedTotal: number | null;
+    pendingNegotiation: AdminNegotiationSummary | null;
+  } | null;
 }
 
 export type AdminServiceRequestPage =

@@ -1,14 +1,21 @@
 "use client";
 
+import toast from "react-hot-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ServiceRequestsFilterTabs from "./ServiceRequestsFilterTabs";
 import ServiceRequestsTable from "./ServiceRequestsTable";
 import {
   type RequestStatus,
+  type RequestTab,
   type ServiceRequestItem,
 } from "./serviceRequestsData";
 import { useGetAdminServiceRequestsQuery } from "@/redux/features/api/admin/serviceRequestsApi";
+import {
+  useApproveAdminCounterofferMutation,
+  useRejectAdminCounterofferMutation,
+} from "@/redux/features/api/admin/counteroffersApi";
+import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
 import type {
   AdminServiceRequestItem,
   AdminServiceRequestStatus,
@@ -40,13 +47,34 @@ const STATUS_LABELS: Record<RequestStatus, string> = {
 
 export default function ServiceRequestsContainer() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<RequestStatus>("New");
+  const [activeTab, setActiveTab] = useState<RequestTab>("All");
 
   const { data, isLoading } = useGetAdminServiceRequestsQuery({
-    status: TAB_TO_API_STATUS[activeTab],
     page: 1,
     pageSize: 100,
+    ...(activeTab === "All" ? {} : { status: TAB_TO_API_STATUS[activeTab] }),
   });
+
+  const [approveCounteroffer] = useApproveAdminCounterofferMutation();
+  const [rejectCounteroffer] = useRejectAdminCounterofferMutation();
+
+  const handleApprove = async (counterofferId: string) => {
+    try {
+      await approveCounteroffer({ id: counterofferId }).unwrap();
+      toast.success("Counteroffer approved. The customer still needs to accept the quote.");
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, "Could not approve the counteroffer."));
+    }
+  };
+
+  const handleReject = async (counterofferId: string) => {
+    try {
+      await rejectCounteroffer({ id: counterofferId }).unwrap();
+      toast.success("Counteroffer rejected.");
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, "Could not reject the counteroffer."));
+    }
+  };
 
   const currentItems = (data?.items ?? []).map(toTableItem);
 
@@ -66,6 +94,8 @@ export default function ServiceRequestsContainer() {
           if (!item.canAssign) return;
           router.push(`/admin/calendar?requestId=${item.id}`);
         }}
+        onApproveCounteroffer={handleApprove}
+        onRejectCounteroffer={handleReject}
       />
     </div>
   );
@@ -73,6 +103,7 @@ export default function ServiceRequestsContainer() {
 
 function toTableItem(item: AdminServiceRequestItem): ServiceRequestItem {
   const status = toTabStatus(item.status);
+  const pending = item.quotation?.pendingNegotiation ?? null;
 
   return {
     id: item.id,
@@ -83,6 +114,10 @@ function toTableItem(item: AdminServiceRequestItem): ServiceRequestItem {
     submitted: formatSubmitted(item.createdAt),
     status,
     statusLabel: STATUS_LABELS[status],
+    quoteAmount: item.quotation?.totalAmount ?? null,
+    customerNegotiationPrice:
+      pending?.requestedTotal ?? item.quotation?.negotiatedTotal ?? null,
+    pendingNegotiationId: pending?.id ?? null,
     canQuote:
       item.status === "NEW" ||
       item.status === "UNDER_REVIEW" ||
