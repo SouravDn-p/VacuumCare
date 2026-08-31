@@ -22,6 +22,7 @@ export interface AdminTechnicianItem extends AdminPersonSummary {
   rating: number;
   isAvailable: boolean;
   verificationStatus: TechnicianVerificationStatus;
+  isActive: boolean;
   jobsToday: number;
   jobsInProgress: number;
   reportsAwaitingReview: number;
@@ -35,7 +36,6 @@ export interface AdminTechnicianDetail extends AdminTechnicianItem {
   bio: string | null;
   verificationNotes: string | null;
   verifiedAt: string | null;
-  isActive: boolean;
   createdAt: string;
 }
 
@@ -50,4 +50,9 @@ export interface AdminUpdateTechnicianBody {
   yearsExperience?: number;
   bio?: string;
   isAvailable?: boolean;
+}
+
+export interface AdminVerifyTechnicianBody {
+  status: TechnicianVerificationStatus;
+  verificationNotes?: string;
 }

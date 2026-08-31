@@ -4,18 +4,24 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import TechnicianCard from "./TechnicianCard";
 import ReportsAwaitingReview from "./ReportsAwaitingReview";
+import PendingApprovals from "./PendingApprovals";
 import ScheduleServiceModal from "@/components/admin/calendar/ScheduleServiceModal";
 import type { ReportAwaitingReview, Technician } from "./techniciansData";
 import { useGetAdminTechniciansQuery } from "@/redux/features/api/admin/techniciansApi";
 import type { AdminTechnicianItem } from "@/types/admin/technicians";
 
+const LIST_QUERY = {
+  page: 1,
+  pageSize: 100,
+  timezone: "America/Toronto",
+} as const;
+
 export default function TechniciansContainer() {
   const router = useRouter();
   const [assignTechnicianId, setAssignTechnicianId] = useState("");
   const { data, isLoading } = useGetAdminTechniciansQuery({
-    page: 1,
-    pageSize: 100,
-    timezone: "America/Toronto",
+    ...LIST_QUERY,
+    verificationStatus: "VERIFIED",
   });
 
   const technicians = (data?.items ?? []).map(toTechnicianCard);
@@ -25,6 +31,12 @@ export default function TechniciansContainer() {
 
   return (
     <>
+      <PendingApprovals />
+
+      {!isLoading && technicians.length === 0 && (
+        <p className="tech-pending-empty">No approved technicians yet.</p>
+      )}
+
       <div className="tech-grid">
         {!isLoading &&
           technicians.map((tech) => (

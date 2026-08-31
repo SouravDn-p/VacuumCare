@@ -3831,6 +3831,10 @@ input:disabled {
 .tech-reports-panel__header {
   padding: 16px 24px;
   border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .tech-reports-panel__title {
@@ -3943,6 +3947,171 @@ input:disabled {
 
 .tech-report-btn--review:hover {
   background: #c4c4c4;
+}
+
+.tech-report-row + .tech-report-row {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.tech-pending-panel {
+  border-color: #fde68a;
+}
+
+.tech-pending-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 9999px;
+  background: #fffbeb;
+  color: #b45309;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tech-pending-meta {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #90a1b9;
+  margin: 2px 0 0;
+}
+
+.tech-pending-empty {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #62748e;
+  margin: 0;
+}
+
+.tech-report-btn--approve {
+  background: #155dfc;
+  color: #ffffff;
+}
+
+.tech-report-btn--approve:hover:not(:disabled) {
+  background: #1251d4;
+}
+
+.tech-report-btn--reject {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.tech-report-btn--reject:hover:not(:disabled) {
+  background: #fecaca;
+}
+
+.tech-report-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tech-pending-content--busy {
+  opacity: 0.65;
+}
+
+.tech-pending-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 24px;
+  border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+}
+
+.tech-pending-pager__range {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  color: #62748e;
+  margin: 0;
+}
+
+.tech-pending-pager__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tech-pending-pager__pages {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tech-pending-pager__page-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tech-pending-pager__nav,
+.tech-pending-pager__page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #45556c;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tech-pending-pager__page {
+  min-width: 32px;
+  padding: 0;
+}
+
+.tech-pending-pager__page--active {
+  background: #eff6ff;
+  border-color: #155dfc;
+  color: #155dfc;
+  font-weight: 700;
+}
+
+.tech-pending-pager__nav:hover:not(:disabled),
+.tech-pending-pager__page:hover:not(.tech-pending-pager__page--active) {
+  border-color: #cbd5e1;
+  color: #155dfc;
+}
+
+.tech-pending-pager__nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tech-pending-pager__ellipsis {
+  color: #90a1b9;
+  padding: 0 2px;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .tech-pending-pager {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tech-pending-pager__controls {
+    justify-content: space-between;
+  }
 }
 
 /* --------------------------------------------------------------------------

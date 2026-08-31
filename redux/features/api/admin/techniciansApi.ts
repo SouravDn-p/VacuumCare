@@ -5,6 +5,7 @@ import type {
   AdminTechnicianListQuery,
   AdminTechnicianPage,
   AdminUpdateTechnicianBody,
+  AdminVerifyTechnicianBody,
 } from "@/types/admin/technicians";
 
 export const adminTechniciansApi = baseApi.injectEndpoints({
@@ -46,6 +47,18 @@ export const adminTechniciansApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["AdminTechnicians"],
     }),
+
+    verifyAdminTechnician: builder.mutation<
+      AdminTechnicianDetail,
+      { id: string; body: AdminVerifyTechnicianBody }
+    >({
+      query: ({ id, body }) => ({
+        url: `/admin/technicians/${id}/verification`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["AdminTechnicians"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -54,4 +67,5 @@ export const {
   useGetAdminTechniciansQuery,
   useGetAdminTechnicianByIdQuery,
   useUpdateAdminTechnicianMutation,
+  useVerifyAdminTechnicianMutation,
 } = adminTechniciansApi;
