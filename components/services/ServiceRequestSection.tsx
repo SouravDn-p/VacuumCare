@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import Link from "next/link";
+import { motion, MotionConfig } from "framer-motion";
 
 import {
   CloudUpload,
@@ -18,6 +19,8 @@ import {
   TimerReset,
   X,
 } from "lucide-react";
+
+import { fadeUp, inView } from "@/components/shared/motion";
 
 import AddressModal from "../profile/AddressModal";
 
@@ -362,13 +365,19 @@ export default function ServiceRequestSection({
     Boolean(profileError || catalogError);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <section
         id="service-request"
         className="py-10 lg:py-16"
       >
         <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
-          <div className="rounded-[20px] bg-[#f1f6ff] p-5 sm:p-8 lg:p-10">
+          <motion.div
+            className="rounded-[20px] bg-[#f1f6ff] p-5 sm:p-8 lg:p-10"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={inView}
+          >
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr]">
               <div className="py-3">
                 <h2
@@ -812,7 +821,7 @@ export default function ServiceRequestSection({
                 </button>
               </form>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -825,7 +834,7 @@ export default function ServiceRequestSection({
         }
         onSave={handleSaveAddress}
       />
-    </>
+    </MotionConfig>
   );
 }
 
