@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { motion, MotionConfig } from "framer-motion";
+import { fadeUp, inView, staggerContainerSlow } from "@/components/shared/motion";
 
 function ArrowIcon() {
   return (
@@ -106,60 +110,73 @@ const services = [
 
 export default function Services() {
   return (
-    <section
-      id="services"
-      className="max-w-[1920px] mx-auto px-6 lg:px-[300px] py-16"
-    >
-      {/* Header */}
-      <div className="flex flex-col gap-4 items-center text-center mb-[64px]">
-        <h2
-          className="text-[36px] font-extrabold text-[#1a73e8] leading-[40px]"
-          style={{ fontFamily: "Manrope, sans-serif" }}
+    <MotionConfig reducedMotion="user">
+      <section
+        id="services"
+        className="max-w-[1920px] mx-auto px-6 lg:px-[300px] py-16"
+      >
+        <motion.div
+          className="flex flex-col gap-4 items-center text-center mb-[64px]"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={inView}
         >
-          Engineered Support
-        </h2>
-        <p
-          className="text-[16px] text-[#4d4d4d] max-w-[672px] leading-6"
-          style={{ fontFamily: "Inter, sans-serif" }}
-        >
-          Our specialized technicians ensure your architectural wellness system
-          operates at peak efficiency.
-        </p>
-      </div>
-
-      {/* Service cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {services.map((service) => (
-          <div
-            key={service.title}
-            className="bg-white border border-[#ebebeb] rounded-[12px] p-6 flex flex-col gap-6 hover:shadow-md transition-shadow"
+          <h2
+            className="text-[36px] font-extrabold text-[#1a73e8] leading-[40px]"
+            style={{ fontFamily: "Manrope, sans-serif" }}
           >
-            <div className="bg-[#d9e9ff] w-16 h-16 rounded-[16px] flex items-center justify-center">
-              {service.icon}
-            </div>
-            <h3
-              className="text-[24px] font-bold text-[#1a73e8] leading-8"
-              style={{ fontFamily: "Manrope, sans-serif" }}
+            Engineered Support
+          </h2>
+          <p
+            className="text-[16px] text-[#4d4d4d] max-w-[672px] leading-6"
+            style={{ fontFamily: "Inter, sans-serif" }}
+          >
+            Our specialized technicians ensure your architectural wellness system
+            operates at peak efficiency.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          variants={staggerContainerSlow}
+          initial="hidden"
+          whileInView="visible"
+          viewport={inView}
+        >
+          {services.map((service) => (
+            <motion.div
+              key={service.title}
+              className="bg-white border border-[#ebebeb] rounded-[12px] p-6 flex flex-col gap-6 hover:shadow-md transition-shadow"
+              variants={fadeUp}
             >
-              {service.title}
-            </h3>
-            <p
-              className="text-[16px] text-[#4d4d4d] leading-[26px] flex-1"
-              style={{ fontFamily: "Inter, sans-serif" }}
-            >
-              {service.description}
-            </p>
-            <Link
-              href="/services#service-request"
-              className="flex items-center gap-2 text-[16px] font-semibold text-[#1a73e8] hover:gap-4 transition-all w-fit"
-              style={{ fontFamily: "Inter, sans-serif" }}
-            >
-              Book Schedule
-              <ArrowIcon />
-            </Link>
-          </div>
-        ))}
-      </div>
-    </section>
+              <div className="bg-[#d9e9ff] w-16 h-16 rounded-[16px] flex items-center justify-center">
+                {service.icon}
+              </div>
+              <h3
+                className="text-[24px] font-bold text-[#1a73e8] leading-8"
+                style={{ fontFamily: "Manrope, sans-serif" }}
+              >
+                {service.title}
+              </h3>
+              <p
+                className="text-[16px] text-[#4d4d4d] leading-[26px] flex-1"
+                style={{ fontFamily: "Inter, sans-serif" }}
+              >
+                {service.description}
+              </p>
+              <Link
+                href="/services#service-request"
+                className="flex items-center gap-2 text-[16px] font-semibold text-[#1a73e8] hover:gap-4 transition-all w-fit"
+                style={{ fontFamily: "Inter, sans-serif" }}
+              >
+                Book Schedule
+                <ArrowIcon />
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+    </MotionConfig>
   );
 }
