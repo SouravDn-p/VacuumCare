@@ -1,167 +1,182 @@
+"use client";
+
 import {
-    AirVent,
-    Cable,
-    Fan,
-    Gauge,
-    Grid2X2,
-    HousePlus,
-    PlugZap,
-    SearchCheck,
-    Settings2,
-    Sparkles,
-    ArrowRight,
+  AirVent,
+  Cable,
+  Fan,
+  Gauge,
+  Grid2X2,
+  HousePlus,
+  PlugZap,
+  SearchCheck,
+  Settings2,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
+import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 
 import type { ServiceTab } from "./ServicesPageClient";
+import {
+  fadeUp,
+  inView,
+  staggerContainerSlow,
+} from "@/components/shared/motion";
 
 interface ServiceTabsProps {
-    activeTab: ServiceTab;
-    onTabChange: (tab: ServiceTab) => void;
-    onGetQuote: () => void;
+  activeTab: ServiceTab;
+  onTabChange: (tab: ServiceTab) => void;
+  onGetQuote: () => void;
 }
 
 const maintenanceServices = [
-    {
-        title: "Vacuum Repair",
-        description:
-            "Full diagnostic and restoration of central vacuum motor units and power heads.",
-        icon: Settings2,
-    },
-    {
-        title: "Maintenance & Troubleshooting",
-        description:
-            "Preventative care to ensure your system operates at peak efficiency year-round.",
-        icon: SearchCheck,
-    },
-    {
-        title: "Low Suction Fix",
-        description:
-            "Specialized blockage removal and seal integrity checks for restored power.",
-        icon: Gauge,
-    },
-    {
-        title: "Broken Inlet Repair",
-        description:
-            "Replacement of damaged wall valves and low-voltage wiring restoration.",
-        icon: PlugZap,
-    },
-    {
-        title: "General Service",
-        description:
-            "Comprehensive system health check including filter cleaning and line purging.",
-        icon: Fan,
-    },
-    {
-        title: "System Inspection",
-        description:
-            "Detailed inspection of your central vacuum system to identify hidden issues and ensure optimal performance.",
-        icon: AirVent,
-    },
+  {
+    title: "Vacuum Repair",
+    description:
+      "Full diagnostic and restoration of central vacuum motor units and power heads.",
+    icon: Settings2,
+  },
+  {
+    title: "Maintenance & Troubleshooting",
+    description:
+      "Preventative care to ensure your system operates at peak efficiency year-round.",
+    icon: SearchCheck,
+  },
+  {
+    title: "Low Suction Fix",
+    description:
+      "Specialized blockage removal and seal integrity checks for restored power.",
+    icon: Gauge,
+  },
+  {
+    title: "Broken Inlet Repair",
+    description:
+      "Replacement of damaged wall valves and low-voltage wiring restoration.",
+    icon: PlugZap,
+  },
+  {
+    title: "General Service",
+    description:
+      "Comprehensive system health check including filter cleaning and line purging.",
+    icon: Fan,
+  },
+  {
+    title: "System Inspection",
+    description:
+      "Detailed inspection of your central vacuum system to identify hidden issues and ensure optimal performance.",
+    icon: AirVent,
+  },
 ];
 
 const installationServices = [
-    {
-        title: "New System",
-        description:
-            "Full blueprinting and installation for new home constructions.",
-        icon: HousePlus,
-    },
-    {
-        title: "Custom Fit",
-        description:
-            "Bespoke layouts for commercial or unique residential spaces.",
-        icon: Grid2X2,
-    },
-    {
-        title: "System Upgrade",
-        description:
-            "Retrofitting modern power units to existing piping networks.",
-        icon: Cable,
-    },
-    {
-        title: "Architectural",
-        description:
-            "Seamless integration into luxury bespoke home designs.",
-        icon: Sparkles,
-    },
+  {
+    title: "New System",
+    description:
+      "Full blueprinting and installation for new home constructions.",
+    icon: HousePlus,
+  },
+  {
+    title: "Custom Fit",
+    description:
+      "Bespoke layouts for commercial or unique residential spaces.",
+    icon: Grid2X2,
+  },
+  {
+    title: "System Upgrade",
+    description:
+      "Retrofitting modern power units to existing piping networks.",
+    icon: Cable,
+  },
+  {
+    title: "Architectural",
+    description:
+      "Seamless integration into luxury bespoke home designs.",
+    icon: Sparkles,
+  },
 ];
 
 export default function ServiceTabs({
-    activeTab,
-    onTabChange,
-    onGetQuote,
+  activeTab,
+  onTabChange,
+  onGetQuote,
 }: ServiceTabsProps) {
-    const services =
-        activeTab === "maintenance"
-            ? maintenanceServices
-            : installationServices;
+  const services =
+    activeTab === "maintenance"
+      ? maintenanceServices
+      : installationServices;
 
-    return (
-        <section className="py-12 lg:py-16">
-            <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
-                {/* =====================================================
-            TABS
-        ===================================================== */}
-                <div className="flex items-end gap-5 sm:gap-7 ">
-                    <button
-                        type="button"
-                        onClick={() => onTabChange("maintenance")}
-                        className={`relative px-2 pb-4 text-[18px] font-semibold transition-colors duration-300 sm:text-[20px] lg:text-[22px] ${activeTab === "maintenance"
-                            ? "text-[#1478f2]"
-                            : "text-[#9a9a9a] hover:text-[#1478f2]"
-                            }`}
-                        style={{
-                            fontFamily: "Manrope, sans-serif",
-                        }}
-                    >
-                        Service &amp; Maintenance
+  return (
+    <MotionConfig reducedMotion="user">
+      <section className="py-12 lg:py-16">
+        <div className="mx-auto max-w-[1320px] px-5 sm:px-8 lg:px-10">
+          <motion.div
+            className="flex items-end gap-5 sm:gap-7"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={inView}
+          >
+            <button
+              type="button"
+              onClick={() => onTabChange("maintenance")}
+              className={`relative px-2 pb-4 text-[18px] font-semibold transition-colors duration-300 sm:text-[20px] lg:text-[22px] ${
+                activeTab === "maintenance"
+                  ? "text-[#1478f2]"
+                  : "text-[#9a9a9a] hover:text-[#1478f2]"
+              }`}
+              style={{ fontFamily: "Manrope, sans-serif" }}
+            >
+              Service &amp; Maintenance
+              <span
+                className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-[#1478f2] transition-all duration-300 ${
+                  activeTab === "maintenance"
+                    ? "w-full opacity-100"
+                    : "w-0 opacity-0"
+                }`}
+              />
+            </button>
 
-                        <span
-                            className={`absolute bottom-0 left-0 h-[2px] rounded-full! bg-[#1478f2] transition-all duration-300 ${activeTab === "maintenance"
-                                ? "w-full opacity-100"
-                                : "w-0 opacity-0"
-                                }`}
-                        />
-                    </button>
+            <button
+              type="button"
+              onClick={() => onTabChange("installation")}
+              className={`relative px-2 pb-4 text-[18px] font-semibold transition-colors duration-300 sm:text-[20px] lg:text-[22px] ${
+                activeTab === "installation"
+                  ? "text-[#1478f2]"
+                  : "text-[#9a9a9a] hover:text-[#1478f2]"
+              }`}
+              style={{ fontFamily: "Manrope, sans-serif" }}
+            >
+              Installation
+              <span
+                className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-[#1478f2] transition-all duration-300 ${
+                  activeTab === "installation"
+                    ? "w-full opacity-100"
+                    : "w-0 opacity-0"
+                }`}
+              />
+            </button>
+          </motion.div>
 
-                    <button
-                        type="button"
-                        onClick={() => onTabChange("installation")}
-                        className={`relative px-2 pb-4 text-[18px] font-semibold transition-colors duration-300 sm:text-[20px] lg:text-[22px] ${activeTab === "installation"
-                            ? "text-[#1478f2]"
-                            : "text-[#9a9a9a] hover:text-[#1478f2]"
-                            }`}
-                        style={{
-                            fontFamily: "Manrope, sans-serif",
-                        }}
-                    >
-                        Installation
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              className={`mt-12 grid overflow-hidden border-l border-t rounded border-[#FAFAFA22] ${
+                activeTab === "maintenance"
+                  ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+              }`}
+              variants={staggerContainerSlow}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+            >
+              {services.map((service) => {
+                const Icon = service.icon;
 
-                        <span
-                            className={`absolute rounded-full bottom-0 left-0 h-[2px] rounded-full bg-[#1478f2] transition-all duration-300 ${activeTab === "installation"
-                                ? "w-full opacity-100"
-                                : "w-0 opacity-0"
-                                }`}
-                        />
-                    </button>
-                </div>
-
-                {/* =====================================================
-            SERVICE GRID
-        ===================================================== */}
-                <div
-                    className={`mt-12 grid overflow-hidden border-l border-t rounded  border-[#FAFAFA22]! ${activeTab === "maintenance"
-                        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-                        : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
-                        }`}
-                >
-                    {services.map((service) => {
-                        const Icon = service.icon;
-
-                        return (
-                            <article
-                                key={service.title}
-                                className="
+                return (
+                  <motion.article
+                    key={service.title}
+                    variants={fadeUp}
+                    className="
                   group
                   relative
                   flex
@@ -191,18 +206,13 @@ export default function ServiceTabs({
                   sm:px-8
                   sm:py-8
                 "
-                            >
-                                {/* Icon */}
-                                <div className="text-[#20272d] transition-colors duration-300 group-hover:text-white group-focus-within:text-white">
-                                    <Icon
-                                        size={24}
-                                        strokeWidth={1.8}
-                                    />
-                                </div>
+                  >
+                    <div className="text-[#20272d] transition-colors duration-300 group-hover:text-white group-focus-within:text-white">
+                      <Icon size={24} strokeWidth={1.8} />
+                    </div>
 
-                                {/* Title */}
-                                <h3
-                                    className="
+                    <h3
+                      className="
                     mt-7
                     text-[18px]
                     font-bold
@@ -215,16 +225,13 @@ export default function ServiceTabs({
                     sm:text-[19px]
                     lg:text-[20px]
                   "
-                                    style={{
-                                        fontFamily: "Manrope, sans-serif",
-                                    }}
-                                >
-                                    {service.title}
-                                </h3>
+                      style={{ fontFamily: "Manrope, sans-serif" }}
+                    >
+                      {service.title}
+                    </h3>
 
-                                {/* Description */}
-                                <p
-                                    className="
+                    <p
+                      className="
                     mt-3
                     max-w-[350px]
                     text-[14px]
@@ -236,18 +243,15 @@ export default function ServiceTabs({
                     group-focus-within:text-white/95
                     sm:text-[15px]
                   "
-                                    style={{
-                                        fontFamily: "Inter, sans-serif",
-                                    }}
-                                >
-                                    {service.description}
-                                </p>
+                      style={{ fontFamily: "Inter, sans-serif" }}
+                    >
+                      {service.description}
+                    </p>
 
-                                {/* Quote */}
-                                <button
-                                    type="button"
-                                    onClick={onGetQuote}
-                                    className="
+                    <button
+                      type="button"
+                      onClick={onGetQuote}
+                      className="
                     mt-auto
                     flex
                     w-fit
@@ -263,26 +267,18 @@ export default function ServiceTabs({
                     group-hover:text-white
                     group-focus-within:text-white
                   "
-                                    style={{
-                                        fontFamily: "Inter, sans-serif",
-                                    }}
-                                >
-                                    <span>Get Quote</span>
+                      style={{ fontFamily: "Inter, sans-serif" }}
+                    >
+                      <span>Get Quote</span>
+                      <ArrowRight
+                        size={16}
+                        strokeWidth={1.8}
+                        className="transition-transform duration-300 group-hover:translate-x-1.5"
+                      />
+                    </button>
 
-                                    <ArrowRight
-                                        size={16}
-                                        strokeWidth={1.8}
-                                        className="
-                      transition-transform
-                      duration-300
-                      group-hover:translate-x-1.5
-                    "
-                                    />
-                                </button>
-
-                                {/* Hover glow */}
-                                <div
-                                    className="
+                    <div
+                      className="
                     pointer-events-none
                     absolute
                     -right-20
@@ -297,12 +293,14 @@ export default function ServiceTabs({
                     duration-300
                     group-hover:opacity-100
                   "
-                                />
-                            </article>
-                        );
-                    })}
-                </div>
-            </div>
-        </section>
-    );
+                    />
+                  </motion.article>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+    </MotionConfig>
+  );
 }
