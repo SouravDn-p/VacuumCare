@@ -26,8 +26,8 @@ export default function SettingsContainer() {
             <LandingHeroSettingsForm />
           </>
         )}
-        {activeTab === "Payment" && <PaymentSettingsForm />}
-        {activeTab === "Shipping" && <ShippingSettingsForm />}
+        {/* {activeTab === "Payment" && <PaymentSettingsForm />}
+        {activeTab === "Shipping" && <ShippingSettingsForm />} */}
         {activeTab === "Notifications" && <NotificationSettingsForm />}
       </div>
     </div>

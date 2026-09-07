@@ -9,7 +9,7 @@ export default function ServiceRequestsHeader() {
         <p className="sr-header__subtitle">Manage and track all service requests</p>
       </div>
 
-      <Link
+      {/* <Link
         href="/admin/service-requests/new"
         id="sr-new-request-btn"
         className="sr-new-request-btn"
@@ -17,7 +17,7 @@ export default function ServiceRequestsHeader() {
       >
         <Plus size={18} strokeWidth={2} className="sr-new-request-btn__icon" />
         <span className="sr-new-request-btn__text">New Request</span>
-      </Link>
+      </Link> */}
     </div>
   );
 }

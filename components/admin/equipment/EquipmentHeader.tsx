@@ -31,7 +31,7 @@ export default function EquipmentHeader({
           Upload equipment photos
         </button>
 
-        <button
+        {/* <button
           type="button"
           id="eq-add-unit-btn"
           className="eq-btn eq-btn--primary"
@@ -39,7 +39,7 @@ export default function EquipmentHeader({
         >
           <Plus size={18} strokeWidth={2} className="eq-btn__icon" />
           <span className="eq-btn__text">Add vacuum unit</span>
-        </button>
+        </button> */}
       </div>
     </div>
   );

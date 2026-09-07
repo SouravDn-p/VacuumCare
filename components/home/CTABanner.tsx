@@ -1,6 +1,10 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
 
 export default function CTABanner() {
+  const router = useRouter();
   return (
     <section
       id="contact"
@@ -16,6 +20,7 @@ export default function CTABanner() {
           />
           {/* Gradient overlay */}
           <div
+          
             className="absolute inset-0"
             style={{
               background:
@@ -40,7 +45,7 @@ export default function CTABanner() {
             system or book a same-day repair appointment.
           </p>
           <div>
-            <Button variant="white" size="lg">
+            <Button onClick={()=>router.push("/services#service-request")} variant="white" size="lg">
               Request Service Now
             </Button>
           </div>

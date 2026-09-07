@@ -11,7 +11,7 @@ export default function QuotationsHeader() {
         </p>
       </div>
 
-      <Link
+      {/* <Link
         href="/admin/quotations/new"
         id="quote-add-btn"
         className="quote-add-btn cursor-pointer"
@@ -19,7 +19,7 @@ export default function QuotationsHeader() {
       >
         <Plus size={18} strokeWidth={2} className="quote-add-btn__icon" />
         <span className="quote-add-btn__text">Create quotation</span>
-      </Link>
+      </Link> */}
     </div>
   );
 }

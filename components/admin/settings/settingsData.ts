@@ -6,7 +6,7 @@ export type SettingsTab =
 
 export const SETTINGS_TABS: SettingsTab[] = [
   "Business",
-  "Payment",
-  "Shipping",
+  // "Payment",
+  // "Shipping",
   "Notifications",
 ];
